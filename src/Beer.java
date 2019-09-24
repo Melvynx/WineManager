@@ -13,10 +13,10 @@ public class Beer extends Alcohol {
     }
     //Fonction
     public String toString() {
-        String str = "Alcohol du nom de "+this.name+". " +
-                "\n \t Il provient de "+this.region+" et à été crée en "+this.age+". " +
-                "\n \t \t C'est une bière "+this.type+"."+
-                "\n \t \t Il possède "+this.degreeOfAlcohol+"% d'Alcool et contient "+ this.capacityML +"ml.";
+        String str = "\t \tBière du nom de "+this.name+". " +
+                "\n Il provient de "+this.region+" et à été crée en "+this.age+". " +
+                "\n \t C'est une bière "+this.type+"."+
+                "\n \t Il possède "+this.degreeOfAlcohol+"% d'Alcool et contient "+ this.capacityML +"ml.";
         return str;
     }
     //Getter
