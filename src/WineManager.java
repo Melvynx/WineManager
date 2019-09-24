@@ -1,54 +1,33 @@
-import java.util.Calendar;
-import java.util.Scanner;
+import org.omg.PortableServer.LIFESPAN_POLICY_ID;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WineManager {
+    private static List<Alcohol> alcohols = new LinkedList<>();
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Integer chosenOption;
-        boolean work;
-        System.out.println("Bienvenue dans la Cave !" +
+        Wine test = new Wine("Martini", "Suisse", 2012, 8, 750, "Rouge", 2018, 2022);
+        Wine test5 = new Wine("Perpignant", "Vaud", 2000, 12, 750, "Blanc", 2020, 2024);
+        Beer test2 = new Beer("PG", "Coop", 2018, 5, 1000, "Brune");
+        Beer test6 = new Beer("Pressure Drop", "-", 2019, 5, 500, "Blonde");
+        StrongAlcohol test3 = new StrongAlcohol("Yager", "Italie", 2019, 40, 1000);
+        StrongAlcohol test4 = new StrongAlcohol("Vodka", "Russie", 2018, 60, 1000);
+        alcohols.add(test); alcohols.add(test2); alcohols.add(test3); alcohols.add(test4); alcohols.add(test5); alcohols.add(test6);
+        boolean continueApplication;
+        System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*\t" +
+                "Bienvenue dans la Cave\t"+
+                "*-*-*-*-*-*-*-*-*-*-*-*-*\n"+
                 "\n Vous retrouverez tout votre répértoire d'Alcool ici. Il est possible d'y stocker des bières, du Vin et même de l'Alcool fort." +
-                "\n \t Commencez maintenant en ajoutant un Alcool ou en parcourant votre List !");
+                "\n Commencez maintenant en ajoutant un Alcool ou en parcourant votre List !\n");
+        //Application :
         do {
-            do {
-                System.out.println("1 : Ajouter un nouvelle Alcoool.");
-                System.out.println("2 : Rechercher un Alcool !");
-                try {
-                    chosenOption = sc.nextInt();
-                } catch (java.util.InputMismatchException a) {
-                   sc.next();
-                   System.out.println("Merci de saisir un nombre. [1 / 2]");
-                   chosenOption = null;
-                   continue;
-                }
-                if (chosenOption > 2 || chosenOption < 1) {
-                    System.out.println("Il vous est demander le nombre 1 ou 2, merci de ne pas introduire d'autre nombre.");
-                    chosenOption = null;
-                }
-            } while (chosenOption == null);
-
-            Integer numberTypeAlcohol;
-
-            //Processus pour ajouter un nouvelle Alcool
+            int chosenOption = questionOption();
+            //New alcohol
             if (chosenOption == 1) {
                 System.out.println("Quelle type d'Alcool voulez-vous crée ?");
-                do {
-                    System.out.println("1 - Vin");
-                    System.out.println("2 - Bière");
-                    System.out.println("3 - Alcool fort");
-                    try {
-                        numberTypeAlcohol = sc.nextInt();
-                    } catch (java.util.InputMismatchException a) {
-                        sc.next();
-                        System.out.println("Merci de saisir un nombre. [1 / 2 / 3]");
-                        numberTypeAlcohol = null;
-                        continue;
-                    }
-                    if (numberTypeAlcohol > 3 || numberTypeAlcohol < 1) {
-                        System.out.println("Votre nombre n'est pas compris entre 1 et 3.");
-                        numberTypeAlcohol = null;
-                    }
-                } while (numberTypeAlcohol == null);
+                int numberTypeAlcohol = questionAdd();
                 if (numberTypeAlcohol == 1) {
                      newWine();
                 }
@@ -59,29 +38,48 @@ public class WineManager {
                     newAlcohol();
                 }
             }
-            //Processus pour afficher un/des alcool(s)
+            //List alcohol
             if (chosenOption == 2) {
                 System.out.println("Voici la list des vins présent acutellement !");
-            }
-            Scanner sc2 = new Scanner(System.in);
-            System.out.println("Voulez vous effectuer d'autre opération ?[Y/N]");
-            char charOfChoice = 'y';
-            boolean charOfChoiceCorrect = true;
-            while (charOfChoiceCorrect) {
-                charOfChoice = sc2.nextLine().charAt(0);
-                if (charOfChoice == 'y' || charOfChoice == 'Y' || charOfChoice == 'n' || charOfChoice == 'N') {
-                    System.out.println("ok");
-                    charOfChoiceCorrect = false;
-                } else {
-                    System.out.println("Votre caractères ne correspond pas au critère. [y/Y(YES) / n/N(NO)]");
-                    charOfChoiceCorrect = true;
+                System.out.println("Quelle Alcool voulez-vous afficher ?");
+                int numberSearch = questionSearch();
+                if (numberSearch == 1) {
+                    for (Alcohol alcohol : alcohols) {
+                        System.out.println(alcohol);
+                    }
+                }
+                if (numberSearch == 2) {
+                    List alcoholFiltredWine = alcohols.stream().filter(alcohol -> alcohol instanceof Wine).collect(Collectors.toList());
+                    for (Object o : alcoholFiltredWine) {
+                        System.out.println(o);
+                    }
+                }
+                if (numberSearch == 3) {
+                    List alcoholFiltredBeer = alcohols.stream().filter(alcohol -> alcohol instanceof Beer).collect(Collectors.toList());
+                    for (Object o : alcoholFiltredBeer) {
+                        System.out.println(o);
+                    }
+                }
+                if (numberSearch == 4) {
+                    List alcoholFiltredStrongAlcohol = alcohols.stream().filter(alcohol -> alcohol instanceof StrongAlcohol).collect(Collectors.toList());
+                    for (Object o : alcoholFiltredStrongAlcohol) {
+                        System.out.println(o);
+                    }
+
                 }
             }
-            work = charOfChoice == 'y' || charOfChoice == 'Y';
-        } while(work);
+            //Redo ?
+            continueApplication = questionContinueApp();
 
+        } while(continueApplication);
     }
-
+    /*
+    |------------------------------------------------------------------------|
+    |------------------------------------------------------------------------|
+    |Function                                                                |
+    |------------------------------------------------------------------------|
+    |------------------------------------------------------------------------|
+     */
 
     private static String answerName(){
         Scanner scA = new Scanner(System.in);
@@ -264,6 +262,7 @@ public class WineManager {
         System.out.println("Votre vin est à consommer entre "+startMaturity+" et "+ endMaturity +".");
         Wine newWine = new Wine(nameNewWine, regionNewWine, ageNewWine, degreeOfAlcoholNewWine, capacityNewWine, typeNewWine, startMaturity, endMaturity);
         System.out.println(newWine);
+        alcohols.add(newWine);
     }
     private static void newBeer() {
         String nameNewBeer = answerName();
@@ -280,6 +279,7 @@ public class WineManager {
         System.out.println("Votre bière est une "+typeNewBeer+".");
         Beer newBeer = new Beer(nameNewBeer, regionNewBeer, ageNewBeer, degreeOfAlcoholNewBeer, capacityNewBeer, typeNewBeer);
         System.out.println(newBeer);
+        alcohols.add(newBeer);
     }
     private static void newAlcohol() {
         String nameNewAlcohol = answerName();
@@ -294,5 +294,88 @@ public class WineManager {
         System.out.println("Votre bouteille contient "+capacityNewAlcohol+" ml.");
         StrongAlcohol newAlcohol = new StrongAlcohol( nameNewAlcohol, regionNewAlcohol, ageNewAlcohol, degreeOfAlcoholNewAlcohol, capacityNewAlcohol);
         System.out.println(newAlcohol);
+        alcohols.add(newAlcohol);
+    }
+    private  static int questionSearch() {
+        Scanner sc = new Scanner(System.in);
+        Integer numberSearch;
+        do {
+            System.out.println("1 - Touts les Alcool de ma cave :p !");
+            System.out.println("2 - Touts les Vins de ma cave :o !");
+            System.out.println("3 - Toutes les Bières de ma cave c: !");
+            System.out.println("4 - Touts les Alcool FORT de ma cave :x !");
+            try {
+                numberSearch = sc.nextInt();
+            } catch (java.util.InputMismatchException a) {
+                sc.next();
+                System.out.println("Merci de saisir un nombre. [1 / 2 / 3]");
+                numberSearch = null;
+                continue;
+            }
+            if (numberSearch > 4 || numberSearch < 1) {
+                System.out.println("Votre nombre n'est pas compris entre 1 et 4.");
+                numberSearch = null;
+            }
+        } while (numberSearch == null);
+        return numberSearch;
+    }
+    private static int questionAdd() {
+        Integer numberTypeAlcohol;
+        Scanner sc = new Scanner(System.in);
+        do {
+            System.out.println("1 - Vin");
+            System.out.println("2 - Bière");
+            System.out.println("3 - Alcool fort");
+            try {
+                numberTypeAlcohol = sc.nextInt();
+            } catch (java.util.InputMismatchException a) {
+                sc.next();
+                System.out.println("Merci de saisir un nombre. [1 / 2 / 3]");
+                numberTypeAlcohol = null;
+                continue;
+            }
+            if (numberTypeAlcohol > 3 || numberTypeAlcohol < 1) {
+                System.out.println("Votre nombre n'est pas compris entre 1 et 3.");
+                numberTypeAlcohol = null;
+            }
+        } while (numberTypeAlcohol == null);
+        return numberTypeAlcohol;
+    }
+    private static Integer questionOption() {
+        Integer chosenOption;
+        Scanner sc = new Scanner(System.in);
+        do {
+            System.out.println("1 : Ajouter un nouvelle Alcoool.");
+            System.out.println("2 : Rechercher un Alcool !");
+            try {
+                chosenOption = sc.nextInt();
+            } catch (java.util.InputMismatchException a) {
+                sc.next();
+                System.out.println("Merci de saisir un nombre. [1 / 2]");
+                chosenOption = null;
+                continue;
+            }
+            if (chosenOption > 2 || chosenOption < 1) {
+                System.out.println("Il vous est demander le nombre 1 ou 2, merci de ne pas introduire d'autre nombre.");
+                chosenOption = null;
+            }
+        } while (chosenOption == null);
+        return chosenOption;
+    }
+    private static boolean questionContinueApp() {
+        Scanner sc2 = new Scanner(System.in);
+        System.out.println("Voulez vous effectuer d'autre opération ?[Y/N]");
+        char charOfChoice = 'y';
+        boolean charOfChoiceCorrect = true;
+        while (charOfChoiceCorrect) {
+            charOfChoice = sc2.nextLine().charAt(0);
+            if (charOfChoice == 'y' || charOfChoice == 'Y' || charOfChoice == 'n' || charOfChoice == 'N') {
+                charOfChoiceCorrect = false;
+            } else {
+                System.out.println("Votre caractères ne correspond pas au critère. [y/Y(YES) / n/N(NO)]");
+                charOfChoiceCorrect = true;
+            }
+        }
+        return charOfChoice == 'y' || charOfChoice == 'Y';
     }
 }

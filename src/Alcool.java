@@ -8,9 +8,13 @@ abstract class Alcohol {
     protected int capacityML;
     //Fonction
     public String toString() {
-        String str = "Alcohol du nom de "+this.name+". " +
+        String str = "\n"+
+                "*---------------------------------------------*\n" +
+                "Alcool : "+this.name+
                 "\n \t Il provient de "+this.region+" et à été crée en "+this.age+". " +
-                "\n \t \t Il possède "+this.degreeOfAlcohol+"% d'Alcool et contient "+ this.capacityML +"ml.";
+                "\n \t Il possède "+this.degreeOfAlcohol+"% d'Alcool."+
+                "\n \t La bouteille contient "+this.capacityML+"ml.\n"+
+                "*---------------------------------------------*";
         return str;
     }
     //Getter

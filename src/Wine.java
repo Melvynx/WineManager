@@ -20,10 +20,13 @@ public class Wine extends Alcohol {
 
     //Fonction
     public String toString() {
-        String str = "\t \tVin du nom de "+this.name+". " +
+        String str = "\n"+
+                "*---------------------------------------------*\n" +
+                "Vin : "+this.name+
                 "\n \t Il provient de "+this.region+" et à été crée en "+this.age+". " +
                 "\n \t C'est un vin "+this.type+". Il est à consommer de préfèrence entre "+this.startMaturity+" et "+this.endMaturity+
-                "\n \t Il possède "+this.degreeOfAlcohol+"% d'Alcool et contient "+ this.capacityML +"ml.";
+                "\n \t Il possède "+this.degreeOfAlcohol+"% d'Alcool et contient "+ this.capacityML +"ml.\n"+
+                "*---------------------------------------------*";
         return str;
     }
     //Getter
