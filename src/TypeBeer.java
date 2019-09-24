@@ -1,8 +1,8 @@
 public enum TypeBeer{
-    Blanche ("Blanche"),
-    Blonde ("Blonde"),
-    Brune ("Brune"),
-    Rousse ("Rousse");
+    BLANCHE ("Blanche"),
+    BLONDE ("Blonde"),
+    BRUNE ("Brune"),
+    ROUSSE ("Rousse");
 
     private String name;
     TypeBeer(String name) {

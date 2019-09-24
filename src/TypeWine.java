@@ -1,7 +1,7 @@
 public enum TypeWine {
-    Blanc ("Blanc"),
-    Rouge ("Rouge"),
-    Rose ("Rosé");
+    BLANC ("Blanc"),
+    ROUGE ("Rouge"),
+    ROSE ("Rosé");
 
     private String name = new String();
     TypeWine(String name) {

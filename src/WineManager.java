@@ -8,8 +8,7 @@ public class WineManager {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Integer chosenOption = null;
-        boolean work = true;
-        System.out.println(TypeWine.Rose.name());
+        boolean work;
         int yearToday = Calendar.getInstance().get(Calendar.YEAR);
         System.out.println("Bienvenue dans la Cave !" +
                 "\n Vous retrouverez tout votre répértoire d'Alcool ici. Il est possible d'y stocker des bières, du Vin et même de l'Alcool fort." +
@@ -112,7 +111,7 @@ public class WineManager {
             }
             //Processus pour afficher un/des alcool(s)
             if (chosenOption == 2) {
-
+                System.out.println("Voici la list des vins présent acutellement !");
             }
             Scanner sc2 = new Scanner(System.in);
             System.out.println("Voulez vous effectuer d'autre opération ?[Y/N]");
@@ -133,7 +132,7 @@ public class WineManager {
             } else {
                 work = false;
             }
-        } while(work == true);
+        } while(work);
 
     }
     Scanner scA = new Scanner(System.in);
@@ -229,11 +228,11 @@ public class WineManager {
             }
         } while (numberTypeWine == null);
         switch (numberTypeWine) {
-            case 1: type = TypeWine.Blanc.getName();
+            case 1: type = TypeWine.BLANC.getName();
                 break;
-            case 2: type = TypeWine.Rouge.getName();
+            case 2: type = TypeWine.ROUGE.getName();
                 break;
-            case 3: type = TypeWine.Rose.getName();
+            case 3: type = TypeWine.ROSE.getName();
                 break;
         }
         return type;
@@ -295,13 +294,13 @@ public class WineManager {
             }
         } while (numberTypeBeer == null);
         switch (numberTypeBeer) {
-            case 1: type = TypeBeer.Blanche.getName();
+            case 1: type = TypeBeer.BLANCHE.getName();
                 break;
-            case 2: type = TypeBeer.Blonde.getName();
+            case 2: type = TypeBeer.BLONDE.getName();
                 break;
-            case 3: type = TypeBeer.Brune.getName();
+            case 3: type = TypeBeer.BRUNE.getName();
                 break;
-            case 4: type = TypeBeer.Rousse.getName();
+            case 4: type = TypeBeer.ROUSSE.getName();
                 break;
         }
         return type;
