@@ -1,8 +1,5 @@
-import org.omg.PortableServer.LIFESPAN_POLICY_ID;
-
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class WineManager {
     private static List<Alcohol> alcohols = new LinkedList<>();
@@ -15,7 +12,8 @@ public class WineManager {
         StrongAlcohol test3 = new StrongAlcohol("Yager", "Italie", 2019, 40, 1000);
         StrongAlcohol test4 = new StrongAlcohol("Vodka", "Russie", 2018, 60, 1000);
         alcohols.add(test); alcohols.add(test2); alcohols.add(test3); alcohols.add(test4); alcohols.add(test5); alcohols.add(test6);
-        boolean continueApplication;
+
+        Integer chosenOption;
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*\t" +
                 "Bienvenue dans la Cave\t"+
                 "*-*-*-*-*-*-*-*-*-*-*-*-*\n"+
@@ -23,7 +21,7 @@ public class WineManager {
                 "\n Commencez maintenant en ajoutant un Alcool ou en parcourant votre List !\n");
         //Application :
         do {
-            int chosenOption = questionOption();
+            chosenOption = questionOption();
             //New alcohol
             if (chosenOption == 1) {
                 System.out.println("Quelle type d'Alcool voulez-vous crée ?");
@@ -69,9 +67,7 @@ public class WineManager {
                 }
             }
             //Redo ?
-            continueApplication = questionContinueApp();
-
-        } while(continueApplication);
+        } while(chosenOption != 3);
     }
     /*
     |------------------------------------------------------------------------|
@@ -345,8 +341,10 @@ public class WineManager {
         Integer chosenOption;
         Scanner sc = new Scanner(System.in);
         do {
+            System.out.println("\n\tQue voulez-vous faire ?\n");
             System.out.println("1 : Ajouter un nouvelle Alcoool.");
             System.out.println("2 : Rechercher un Alcool !");
+            System.out.println("3 : Quitter");
             try {
                 chosenOption = sc.nextInt();
             } catch (java.util.InputMismatchException a) {
@@ -355,27 +353,11 @@ public class WineManager {
                 chosenOption = null;
                 continue;
             }
-            if (chosenOption > 2 || chosenOption < 1) {
-                System.out.println("Il vous est demander le nombre 1 ou 2, merci de ne pas introduire d'autre nombre.");
+            if (chosenOption > 3 || chosenOption < 1) {
+                System.out.println("Il vous est demander le nombre 1, 2 ou 3, merci de ne pas introduire d'autre nombre.");
                 chosenOption = null;
             }
         } while (chosenOption == null);
         return chosenOption;
-    }
-    private static boolean questionContinueApp() {
-        Scanner sc2 = new Scanner(System.in);
-        System.out.println("Voulez vous effectuer d'autre opération ?[Y/N]");
-        char charOfChoice = 'y';
-        boolean charOfChoiceCorrect = true;
-        while (charOfChoiceCorrect) {
-            charOfChoice = sc2.nextLine().charAt(0);
-            if (charOfChoice == 'y' || charOfChoice == 'Y' || charOfChoice == 'n' || charOfChoice == 'N') {
-                charOfChoiceCorrect = false;
-            } else {
-                System.out.println("Votre caractères ne correspond pas au critère. [y/Y(YES) / n/N(NO)]");
-                charOfChoiceCorrect = true;
-            }
-        }
-        return charOfChoice == 'y' || charOfChoice == 'Y';
     }
 }
