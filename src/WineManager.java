@@ -1,12 +1,12 @@
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class WineManager {
-    static List<Alcohol> alcohols = new LinkedList<>();
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        tryNewAlcohol();
+    public static void main(String[] args) throws SQLException {
+
         Integer chosenOption;
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*\t" +
                 "Bienvenue dans la Cave\t"+
@@ -32,37 +32,44 @@ public class WineManager {
             }
             //List alcohol
             if (chosenOption == 2) {
+                ConnectionSQL connection = new ConnectionSQL("db.db");
+                connection.connect();
+                connection.createTable();
+
                 System.out.println("Voici la list des vins présent acutellement !");
                 System.out.println("Quelle Alcool voulez-vous afficher ?");
                 int numberSearch = questionSearch();
                 switch (numberSearch) {
                     case 1:
-                        for (Alcohol alcohol : alcohols) {
-                            System.out.println(alcohol);
+                        List alcohols = connection.getAllAlcohol();
+                        for (Object o : alcohols) {
+                            System.out.println(o);
                         }
                         break;
                     case 2:
-                        List alcoholFiltredWine = alcohols.stream().filter(alcohol -> alcohol instanceof Wine).collect(Collectors.toList());
+                        List alcoholFiltredWine = connection.getWines();
                         for (Object o : alcoholFiltredWine) {
                             System.out.println(o);
                         }
                         break;
                     case 3:
-                        List alcoholFiltredBeer = alcohols.stream().filter(alcohol -> alcohol instanceof Beer).collect(Collectors.toList());
+                        List alcoholFiltredBeer = connection.getStrongAlcohol();
                         for (Object o : alcoholFiltredBeer) {
                             System.out.println(o);
                         }
                     case 4:
-                        List alcoholFiltredStrongAlcohol = alcohols.stream().filter(alcohol -> alcohol instanceof StrongAlcohol).collect(Collectors.toList());
+                        List alcoholFiltredStrongAlcohol = connection.getBeer();
                         for (Object o : alcoholFiltredStrongAlcohol) {
                             System.out.println(o);
                         }
                     default:
-                        System.out.println("Error.");
+                        System.out.println("");
                 }
+                connection.close();
             }
             //Redo ?
         } while(chosenOption != 3);
+        connectionDB();
     }
     /*
     |------------------------------------------------------------------------|
@@ -71,6 +78,11 @@ public class WineManager {
     |------------------------------------------------------------------------|
     |------------------------------------------------------------------------|
      */
+    private static void connectionDB() {
+        ConnectionSQL connection = new ConnectionSQL("src/lib/Alcohol.db");
+        connection.connect();
+        connection.createTable();
+    }
     private static String answerName(){
         String name;
         System.out.println("Quelle est le nom de votre Alcool ?");
@@ -229,10 +241,11 @@ public class WineManager {
         return type;
     }
     private static void newWine() {
+
         String nameNewWine = answerName();
         System.out.println("Le nom de ton Alcool est : " + nameNewWine+".");
         String regionNewWine = answerRegion();
-        System.out.println("Le nom de ton Alcool est : " + regionNewWine+".");
+        System.out.println("La région de ton Alcool est : " + regionNewWine+".");
         int ageNewWine = answerAge();
         System.out.println("L'année de ton Alcool est : " + ageNewWine+".");
         int degreeOfAlcoholNewWine = answerDegreeOfAlcohol();
@@ -246,13 +259,17 @@ public class WineManager {
         System.out.println("Votre vin est à consommer entre "+startMaturity+" et "+ endMaturity +".");
         Wine newWine = new Wine(nameNewWine, regionNewWine, ageNewWine, degreeOfAlcoholNewWine, capacityNewWine, typeNewWine, startMaturity, endMaturity);
         System.out.println(newWine);
-        alcohols.add(newWine);
+
+        ConnectionSQL connection = new ConnectionSQL("db.db");
+        connection.connect();
+        connection.createTable();
+        connection.addWine(newWine);
     }
     private static void newBeer() {
         String nameNewBeer = answerName();
         System.out.println("Le nom de ton Alcool est : " + nameNewBeer+".");
         String regionNewBeer = answerRegion();
-        System.out.println("Le nom de ton Alcool est : " + regionNewBeer+".");
+        System.out.println("La région de ton Alcool est : " + regionNewBeer+".");
         int ageNewBeer = answerAge();
         System.out.println("L'année de ton Alcool est : " + ageNewBeer+".");
         int degreeOfAlcoholNewBeer = answerDegreeOfAlcohol();
@@ -263,13 +280,17 @@ public class WineManager {
         System.out.println("Votre bière est une "+typeNewBeer+".");
         Beer newBeer = new Beer(nameNewBeer, regionNewBeer, ageNewBeer, degreeOfAlcoholNewBeer, capacityNewBeer, typeNewBeer);
         System.out.println(newBeer);
-        alcohols.add(newBeer);
+
+        ConnectionSQL connection = new ConnectionSQL("db.db");
+        connection.connect();
+        connection.createTable();
+        connection.addBeer(newBeer);
     }
     private static void newAlcohol() {
         String nameNewAlcohol = answerName();
         System.out.println("Le nom de ton Alcool est : " + nameNewAlcohol+".");
         String regionNewAlcohol = answerRegion();
-        System.out.println("Le nom de ton Alcool est : " + regionNewAlcohol+".");
+        System.out.println("La région de ton Alcool est : " + regionNewAlcohol+".");
         int ageNewAlcohol = answerAge();
         System.out.println("L'année de ton Alcool est : " + ageNewAlcohol+".");
         int degreeOfAlcoholNewAlcohol = answerDegreeOfAlcohol();
@@ -278,7 +299,11 @@ public class WineManager {
         System.out.println("Votre bouteille contient "+capacityNewAlcohol+" ml.");
         StrongAlcohol newAlcohol = new StrongAlcohol( nameNewAlcohol, regionNewAlcohol, ageNewAlcohol, degreeOfAlcoholNewAlcohol, capacityNewAlcohol);
         System.out.println(newAlcohol);
-        alcohols.add(newAlcohol);
+
+        ConnectionSQL connection = new ConnectionSQL("db.db");
+        connection.connect();
+        connection.createTable();
+        connection.addStrongAlcohol(newAlcohol);
     }
     private  static int questionSearch() {
         Integer numberSearch;
@@ -344,13 +369,5 @@ public class WineManager {
             }
         } while (chosenOption == null);
         return chosenOption;
-    }
-    private static void tryNewAlcohol() {
-        alcohols.add(new Wine("Martini", "Suisse", 2012, 8, 750, TypeWine.ROSE, 2018, 2022));
-        alcohols.add(new Wine("Perpignant", "Vaud", 2000, 12, 750, TypeWine.BLANC, 2020, 2024));
-        alcohols.add(new Beer("PG", "Coop", 2018, 5, 1000, TypeBeer.BRUNE));
-        alcohols.add(new Beer("Pressure Drop", "-", 2019, 5, 500, TypeBeer.BLANCHE));
-        alcohols.add(new StrongAlcohol("Yager", "Italie", 2019, 40, 1000));
-        alcohols.add(new StrongAlcohol("Vodka", "Russie", 2018, 60, 1000));
     }
 }

@@ -23,8 +23,8 @@ public class Beer extends Alcohol {
     }
     //Getter
 
-    public TypeBeer getType() {
-        return type;
+    public String getType() {
+        return String.valueOf(type);
     }
     //Setter
 

@@ -31,14 +31,16 @@ public class Wine extends Alcohol {
     }
     //Getter
 
-    public TypeWine getType() {
-        return type;
+    public String getType() {
+        return String.valueOf(type);
     }
     public String getMaturity() {
         String str = startMaturity + " - " + endMaturity;
         return str;
     }
-    //Setter
+
+    public int getStartMaturity() { return startMaturity; }public int getEndMaturity() { return endMaturity; }
+//Setter
 
     public void setType(TypeWine type) {
         this.type = type;
