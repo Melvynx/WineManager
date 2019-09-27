@@ -1,12 +1,12 @@
 public class Wine extends Alcohol {
-    protected String type;
+    protected TypeWine type;
     protected int startMaturity;
     protected int endMaturity;
     //Instancier
 
     public Wine() { }
 
-    public Wine(String name, String region, int age, int degreeOfAlcohol, int capacityML, String type, int startMaturity, int endMaturity) {
+    public Wine(String name, String region, int age, int degreeOfAlcohol, int capacityML, TypeWine type, int startMaturity, int endMaturity) {
         super();
         this.name = name;
         this.region = region;
@@ -31,7 +31,7 @@ public class Wine extends Alcohol {
     }
     //Getter
 
-    public String getType() {
+    public TypeWine getType() {
         return type;
     }
     public String getMaturity() {
@@ -40,7 +40,7 @@ public class Wine extends Alcohol {
     }
     //Setter
 
-    public void setType(String type) {
+    public void setType(TypeWine type) {
         this.type = type;
     }
     public void setEndMaturity(int endMaturity) {

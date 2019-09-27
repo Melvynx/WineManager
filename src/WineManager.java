@@ -2,17 +2,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class WineManager {
-    private static List<Alcohol> alcohols = new LinkedList<>();
+    static List<Alcohol> alcohols = new LinkedList<>();
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Wine test = new Wine("Martini", "Suisse", 2012, 8, 750, "Rouge", 2018, 2022);
-        Wine test5 = new Wine("Perpignant", "Vaud", 2000, 12, 750, "Blanc", 2020, 2024);
-        Beer test2 = new Beer("PG", "Coop", 2018, 5, 1000, "Brune");
-        Beer test6 = new Beer("Pressure Drop", "-", 2019, 5, 500, "Blonde");
-        StrongAlcohol test3 = new StrongAlcohol("Yager", "Italie", 2019, 40, 1000);
-        StrongAlcohol test4 = new StrongAlcohol("Vodka", "Russie", 2018, 60, 1000);
-        alcohols.add(test); alcohols.add(test2); alcohols.add(test3); alcohols.add(test4); alcohols.add(test5); alcohols.add(test6);
-
+        tryNewAlcohol();
         Integer chosenOption;
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*\t" +
                 "Bienvenue dans la Cave\t"+
@@ -41,29 +35,30 @@ public class WineManager {
                 System.out.println("Voici la list des vins présent acutellement !");
                 System.out.println("Quelle Alcool voulez-vous afficher ?");
                 int numberSearch = questionSearch();
-                if (numberSearch == 1) {
-                    for (Alcohol alcohol : alcohols) {
-                        System.out.println(alcohol);
-                    }
-                }
-                if (numberSearch == 2) {
-                    List alcoholFiltredWine = alcohols.stream().filter(alcohol -> alcohol instanceof Wine).collect(Collectors.toList());
-                    for (Object o : alcoholFiltredWine) {
-                        System.out.println(o);
-                    }
-                }
-                if (numberSearch == 3) {
-                    List alcoholFiltredBeer = alcohols.stream().filter(alcohol -> alcohol instanceof Beer).collect(Collectors.toList());
-                    for (Object o : alcoholFiltredBeer) {
-                        System.out.println(o);
-                    }
-                }
-                if (numberSearch == 4) {
-                    List alcoholFiltredStrongAlcohol = alcohols.stream().filter(alcohol -> alcohol instanceof StrongAlcohol).collect(Collectors.toList());
-                    for (Object o : alcoholFiltredStrongAlcohol) {
-                        System.out.println(o);
-                    }
-
+                switch (numberSearch) {
+                    case 1:
+                        for (Alcohol alcohol : alcohols) {
+                            System.out.println(alcohol);
+                        }
+                        break;
+                    case 2:
+                        List alcoholFiltredWine = alcohols.stream().filter(alcohol -> alcohol instanceof Wine).collect(Collectors.toList());
+                        for (Object o : alcoholFiltredWine) {
+                            System.out.println(o);
+                        }
+                        break;
+                    case 3:
+                        List alcoholFiltredBeer = alcohols.stream().filter(alcohol -> alcohol instanceof Beer).collect(Collectors.toList());
+                        for (Object o : alcoholFiltredBeer) {
+                            System.out.println(o);
+                        }
+                    case 4:
+                        List alcoholFiltredStrongAlcohol = alcohols.stream().filter(alcohol -> alcohol instanceof StrongAlcohol).collect(Collectors.toList());
+                        for (Object o : alcoholFiltredStrongAlcohol) {
+                            System.out.println(o);
+                        }
+                    default:
+                        System.out.println("Error.");
                 }
             }
             //Redo ?
@@ -76,22 +71,22 @@ public class WineManager {
     |------------------------------------------------------------------------|
     |------------------------------------------------------------------------|
      */
-
     private static String answerName(){
-        Scanner scA = new Scanner(System.in);
         String name;
+        System.out.println("Quelle est le nom de votre Alcool ?");
         do {
-            System.out.println("Quelle est le nom de votre Alcool ?");
-            name = scA.nextLine();
+            name = scanner.nextLine();
+            if (name.length() < 3 || name.length() > 30) {
+                System.out.println("Minimume 3 caractères, Maximume 30!");
+            }
         } while (name.length() < 3 || name.length() > 30);
         return name;
     }
     private static String answerRegion() {
-        Scanner scA = new Scanner(System.in);
         String region;
         do {
             System.out.println("Quelle est la région de votre Alcool ?");
-            region = scA.nextLine();
+            region = scanner.nextLine();
         } while (region.length() < 3 || region.length() > 30);
         return region;
 
@@ -99,13 +94,12 @@ public class WineManager {
     private static int answerAge() {
         int dateGive;
         int yearToday = Calendar.getInstance().get(Calendar.YEAR);
-        Scanner scA = new Scanner(System.in);
         do {
             System.out.println("Quelle est l'année de création de votre bouteille ? [Format : YYYY]");
             try {
-                dateGive = scA.nextInt();
+                dateGive = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
-                scA.next();
+                scanner.next();
                 System.out.println("Merci de saisir des nombres. [1000 - "+yearToday+"]");
                 dateGive = 1;
             }
@@ -114,13 +108,12 @@ public class WineManager {
     }
     private static int answerDegreeOfAlcohol() {
         int degreeOfAlcohol;
-        Scanner scA = new Scanner(System.in);
         do {
             System.out.println("Quelle est le degré d'Alcool bouteille ? [Nombre entre 1 et 100.]");
             try {
-                degreeOfAlcohol = scA.nextInt();
+                degreeOfAlcohol = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
-                scA.next();
+                scanner.next();
                 System.out.println("Merci de saisir des nombres. [0 - 100]");
                 degreeOfAlcohol = -1;
             }
@@ -129,31 +122,29 @@ public class WineManager {
     }
     private static int answerCapacity() {
         int capacity;
-        Scanner scA = new Scanner(System.in);
         do {
             System.out.println("Combien de ML contient votre bouteille d'Alcool ? [Nombre entre 1 et 1000.]");
             try {
-                capacity = scA.nextInt();
+                capacity = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
-                scA.next();
+                scanner.next();
                 System.out.println("Merci de saisir des nombres. [0 - 1000 ML]");
                 capacity = 1;
             }
         } while (capacity > 1000 || capacity < 10);
         return capacity;
     }
-    private static String answerTypeWine() {
-        String type ="";
-        Scanner scA = new Scanner(System.in);
+    private static TypeWine answerTypeWine() {
+        TypeWine type = null;
         Integer numberTypeWine;
         do {
             System.out.println("1 - Blanc");
             System.out.println("2 - Rouge");
             System.out.println("3 - Rosée");
             try {
-                numberTypeWine = scA.nextInt();
+                numberTypeWine = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
-                scA.next();
+                scanner.next();
                 System.out.println("Merci de saisir un nombre. [1 / 2 / 3]");
                 numberTypeWine = null;
                 continue;
@@ -164,11 +155,11 @@ public class WineManager {
             }
         } while (numberTypeWine == null);
         switch (numberTypeWine) {
-            case 1: type = TypeWine.BLANC.getName();
+            case 1: type = TypeWine.BLANC;
                 break;
-            case 2: type = TypeWine.ROUGE.getName();
+            case 2: type = TypeWine.ROUGE;
                 break;
-            case 3: type = TypeWine.ROSE.getName();
+            case 3: type = TypeWine.ROSE;
                 break;
         }
         return type;
@@ -176,13 +167,12 @@ public class WineManager {
     private static int answerStartMaturity() {
         int dateGive;
         int yearToday = Calendar.getInstance().get(Calendar.YEAR);
-        Scanner scA = new Scanner(System.in);
         do {
             System.out.println("Quelle est l'année à partir de laquelle votre bouteille est à maturité ? [Format : YYYY]");
             try {
-                dateGive = scA.nextInt();
+                dateGive = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
-                scA.next();
+                scanner.next();
                 System.out.println("Merci de saisir des nombres. [1000 - "+yearToday+"]");
                 dateGive = 1;
             }
@@ -192,23 +182,21 @@ public class WineManager {
     private static int answerEndMaturity(int startMaturity) {
         int dateGive;
         int yearToday = Calendar.getInstance().get(Calendar.YEAR);
-        Scanner scA = new Scanner(System.in);
         do {
             System.out.println("Et la date de fin ? [Format : YYYY]");
             try {
-                dateGive = scA.nextInt();
+                dateGive = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
-                scA.next();
+                scanner.next();
                 System.out.println("Merci de saisir des nombres. ["+startMaturity+" - 2XXX]");
                 dateGive = 1;
             }
         } while (dateGive < yearToday || dateGive < startMaturity);
         return dateGive;
     }
-    private static String answerTypeBeer() {
+    private static TypeBeer answerTypeBeer() {
         System.out.println("Quelle est le type de votre bière ?");
-        String type ="";
-        Scanner scA = new Scanner(System.in);
+        TypeBeer type = null;
         Integer numberTypeBeer;
         do {
             System.out.println("1 - Blanche");
@@ -216,9 +204,9 @@ public class WineManager {
             System.out.println("3 - Brune");
             System.out.println("4 - Rousse");
             try {
-                numberTypeBeer = scA.nextInt();
+                numberTypeBeer = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
-                scA.next();
+                scanner.next();
                 System.out.println("Merci de saisir un nombre. [1 / 2 / 3 / 4]");
                 numberTypeBeer = null;
                 continue;
@@ -229,13 +217,13 @@ public class WineManager {
             }
         } while (numberTypeBeer == null);
         switch (numberTypeBeer) {
-            case 1: type = TypeBeer.BLANCHE.getName();
+            case 1: type = TypeBeer.BLANCHE;
                 break;
-            case 2: type = TypeBeer.BLONDE.getName();
+            case 2: type = TypeBeer.BLONDE;
                 break;
-            case 3: type = TypeBeer.BRUNE.getName();
+            case 3: type = TypeBeer.BRUNE;
                 break;
-            case 4: type = TypeBeer.ROUSSE.getName();
+            case 4: type = TypeBeer.ROUSSE;
                 break;
         }
         return type;
@@ -251,7 +239,7 @@ public class WineManager {
         System.out.println("Le degrée de votre Alcool est : " + degreeOfAlcoholNewWine+"% .");
         int capacityNewWine = answerCapacity();
         System.out.println("Votre bouteille contient "+capacityNewWine+" ml.");
-        String typeNewWine = answerTypeWine();
+        TypeWine typeNewWine = answerTypeWine();
         System.out.println("Votre vins est du "+typeNewWine+".");
         int startMaturity = answerStartMaturity();
         int endMaturity = answerEndMaturity(startMaturity);
@@ -271,7 +259,7 @@ public class WineManager {
         System.out.println("Le degrée de votre Alcool est : " + degreeOfAlcoholNewBeer+"% .");
         int capacityNewBeer = answerCapacity();
         System.out.println("Votre bouteille contient "+capacityNewBeer+" ml.");
-        String typeNewBeer = answerTypeBeer();
+        TypeBeer typeNewBeer = answerTypeBeer();
         System.out.println("Votre bière est une "+typeNewBeer+".");
         Beer newBeer = new Beer(nameNewBeer, regionNewBeer, ageNewBeer, degreeOfAlcoholNewBeer, capacityNewBeer, typeNewBeer);
         System.out.println(newBeer);
@@ -293,17 +281,16 @@ public class WineManager {
         alcohols.add(newAlcohol);
     }
     private  static int questionSearch() {
-        Scanner sc = new Scanner(System.in);
         Integer numberSearch;
         do {
-            System.out.println("1 - Touts les Alcool de ma cave :p !");
-            System.out.println("2 - Touts les Vins de ma cave :o !");
+            System.out.println("1 - Tous les Alcool de ma cave :p !");
+            System.out.println("2 - Tous les Vins de ma cave :o !");
             System.out.println("3 - Toutes les Bières de ma cave c: !");
-            System.out.println("4 - Touts les Alcool FORT de ma cave :x !");
+            System.out.println("4 - Tous les Alcool FORT de ma cave :x !");
             try {
-                numberSearch = sc.nextInt();
+                numberSearch = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
-                sc.next();
+                scanner.next();
                 System.out.println("Merci de saisir un nombre. [1 / 2 / 3]");
                 numberSearch = null;
                 continue;
@@ -317,15 +304,14 @@ public class WineManager {
     }
     private static int questionAdd() {
         Integer numberTypeAlcohol;
-        Scanner sc = new Scanner(System.in);
         do {
             System.out.println("1 - Vin");
             System.out.println("2 - Bière");
             System.out.println("3 - Alcool fort");
             try {
-                numberTypeAlcohol = sc.nextInt();
+                numberTypeAlcohol = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
-                sc.next();
+                scanner.next();
                 System.out.println("Merci de saisir un nombre. [1 / 2 / 3]");
                 numberTypeAlcohol = null;
                 continue;
@@ -339,16 +325,15 @@ public class WineManager {
     }
     private static Integer questionOption() {
         Integer chosenOption;
-        Scanner sc = new Scanner(System.in);
         do {
             System.out.println("\n\tQue voulez-vous faire ?\n");
             System.out.println("1 : Ajouter un nouvelle Alcoool.");
             System.out.println("2 : Rechercher un Alcool !");
             System.out.println("3 : Quitter");
             try {
-                chosenOption = sc.nextInt();
+                chosenOption = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
-                sc.next();
+                scanner.next();
                 System.out.println("Merci de saisir un nombre. [1 / 2]");
                 chosenOption = null;
                 continue;
@@ -359,5 +344,13 @@ public class WineManager {
             }
         } while (chosenOption == null);
         return chosenOption;
+    }
+    private static void tryNewAlcohol() {
+        alcohols.add(new Wine("Martini", "Suisse", 2012, 8, 750, TypeWine.ROSE, 2018, 2022));
+        alcohols.add(new Wine("Perpignant", "Vaud", 2000, 12, 750, TypeWine.BLANC, 2020, 2024));
+        alcohols.add(new Beer("PG", "Coop", 2018, 5, 1000, TypeBeer.BRUNE));
+        alcohols.add(new Beer("Pressure Drop", "-", 2019, 5, 500, TypeBeer.BLANCHE));
+        alcohols.add(new StrongAlcohol("Yager", "Italie", 2019, 40, 1000));
+        alcohols.add(new StrongAlcohol("Vodka", "Russie", 2018, 60, 1000));
     }
 }

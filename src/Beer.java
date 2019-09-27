@@ -1,9 +1,8 @@
 public class Beer extends Alcohol {
-    protected String type;
+    protected TypeBeer type;
     //Instancier
 
-    public Beer() { }
-    public Beer(String name, String region, int age, int degreeOfAlcohol, int capacityML, String type) {
+    public Beer(String name, String region, int age, int degreeOfAlcohol, int capacityML, TypeBeer type) {
         this.name = name;
         this.region = region;
         this.age = age;
@@ -24,12 +23,12 @@ public class Beer extends Alcohol {
     }
     //Getter
 
-    public String getType() {
+    public TypeBeer getType() {
         return type;
     }
     //Setter
 
-    public void setType(String type) {
+    public void setType(TypeBeer type) {
         this.type = type;
     }
 }
