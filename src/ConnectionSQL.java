@@ -26,7 +26,7 @@ public class ConnectionSQL{
         }
         this.createTable();
     }
-    public void createTable() {
+    private void createTable() {
         String sqlAlcohol = "CREATE TABLE IF NOT EXISTS StrongAlcohol (" +
                 "    id INTEGER PRIMARY KEY," +
                 "    name VARCHAR(40) NOT NULL," +
@@ -144,7 +144,6 @@ public class ConnectionSQL{
         ResultSet resultSet = this.query("SELECT * FROM Wine");
         while (resultSet.next()) {
             typeNewWine = TypeWine.getFromName(resultSet.getString("type_wine"));
-            System.out.println(typeNewWine);
             Wine wine = new Wine(resultSet.getString("name"), resultSet.getString("region"), resultSet.getInt("age"), resultSet.getInt("degree_of_alcohol"), resultSet.getInt("capacity_ml"), typeNewWine, resultSet.getInt("start_maturity"), resultSet.getInt("end_maturity"));
             wines.add(wine);
         }

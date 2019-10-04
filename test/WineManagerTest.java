@@ -3,13 +3,14 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
-/*
+
 class WineManagerTest {
 
     @Test
-    void TestExit() {
+    void TestExit() throws SQLException {
         String input = "3";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
@@ -18,7 +19,7 @@ class WineManagerTest {
     }
 
     @Test
-    void TestAddWine() {
+    void TestAddWine() throws SQLException {
 
         String input = "1\n" +
                 "1\n" +
@@ -40,12 +41,11 @@ class WineManagerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
-        assertEquals(0, WineManager.alcohols.size());
         WineManager.main(null);
-        assertEquals(7, WineManager.alcohols.size());
+
     }
     @Test
-    void TestAddBeer() {
+    void TestAddBeer() throws SQLException {
 
 
 
@@ -61,12 +61,10 @@ class WineManagerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
-        assertEquals(0, WineManager.alcohols.size());
         WineManager.main(null);
-        assertEquals(7, WineManager.alcohols.size());
     }
     @Test
-    void TestAddAlcohol() {
+    void TestAddAlcohol() throws SQLException {
 
         String input = "1\n" +
                 "3\n" +
@@ -79,12 +77,10 @@ class WineManagerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
-        assertEquals(0, WineManager.alcohols.size());
         WineManager.main(null);
-        assertEquals(7, WineManager.alcohols.size());
     }
     @Test
-    void TestShowAll() {
+    void TestShowAll() throws SQLException {
 
         String input = "2\n" +
                 "1\n" +
@@ -92,10 +88,9 @@ class WineManagerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         WineManager.main(null);
-        assertEquals(6, WineManager.alcohols.size());
     }
     @Test
-    void TestShowBeer() {
+    void TestShowBeer() throws SQLException {
 
         String input = "2\n" +
                 "3\n" +
@@ -103,8 +98,5 @@ class WineManagerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         WineManager.main(null);
-        assertEquals(6, WineManager.alcohols.size());
     }
 }
-
- */
