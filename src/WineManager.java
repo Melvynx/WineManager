@@ -68,7 +68,6 @@ public class WineManager {
             }
             //Redo ?
         } while(chosenOption != 3);
-        connectionDB();
     }
     /*
     |------------------------------------------------------------------------|
@@ -77,9 +76,6 @@ public class WineManager {
     |------------------------------------------------------------------------|
     |------------------------------------------------------------------------|
      */
-    private static void connectionDB() {
-        connection.connect();
-    }
     private static String answerName(){
         String name;
         System.out.println("Quelle est le nom de votre Alcool ?");
@@ -359,6 +355,9 @@ public class WineManager {
                 chosenOption = null;
             }
         } while (chosenOption == null);
+        if (chosenOption == 3) {
+            System.out.println("Bonne suite de journée/soirée.");
+        }
         return chosenOption;
     }
 }

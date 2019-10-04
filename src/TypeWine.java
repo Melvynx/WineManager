@@ -16,8 +16,7 @@ public enum TypeWine {
     @Nullable
     static public TypeWine getFromName(String name) {
         for (TypeWine candidate : values()) {
-            if (candidate.name.equals(name)) {
-                System.out.println(candidate);
+            if (candidate.name.equals(name)){1
                 return candidate;
             }
         }
