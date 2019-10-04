@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ConnectionSQL{
 
-    private String DBPath = "Chemin au base de donnée SQLite.";
+    private String DBPath;
     private Connection connection = null;
     private Statement statement = null;
 
@@ -24,6 +24,7 @@ public class ConnectionSQL{
             sql.printStackTrace();
             System.out.println("Erreur de connexion SQL.");
         }
+        this.createTable();
     }
     public void createTable() {
         String sqlAlcohol = "CREATE TABLE IF NOT EXISTS StrongAlcohol (" +
@@ -32,7 +33,7 @@ public class ConnectionSQL{
                 "    region VARCHAR(40)," +
                 "    age INTEGER NOT NULL," +
                 "    degree_of_alcohol INTEGER NOT NULL," +
-                "    capacityML INTEGER NOT NULL" +
+                "    capacity_ml INTEGER NOT NULL" +
                 ");";
         String sqlBeer = "CREATE TABLE IF NOT EXISTS Beer (" +
                 "    id INTEGER PRIMARY KEY," +
@@ -40,7 +41,7 @@ public class ConnectionSQL{
                 "    region VARCHAR(40)," +
                 "    age INTEGER NOT NULL," +
                 "    degree_of_alcohol INTEGER NOT NULL," +
-                "    capacityML INTEGER NOT NULL," +
+                "    capacity_ml INTEGER NOT NULL," +
                 "    type_beer VARCHAR(10)" +
                 ");";
         String sqlWine = "CREATE TABLE IF NOT EXISTS Wine (" +
@@ -49,7 +50,7 @@ public class ConnectionSQL{
                 "    region VARCHAR(40)," +
                 "    age INTEGER NOT NULL," +
                 "    degree_of_alcohol INTEGER NOT NULL," +
-                "    capacityML INTEGER NOT NULL," +
+                "    capacity_ml INTEGER NOT NULL," +
                 "    type_wine VARCHAR(10), " +
                 "    start_maturity INTEGER NOT NULL," +
                 "    end_maturity INTEGER NOT NULL" +
@@ -69,15 +70,16 @@ public class ConnectionSQL{
 
 
     public void close() {
-        try {
-            connection.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (connection != null) {
+            try {
+                connection.close();
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Erreur de déconnexion.");
+            }
+        } else {
             System.out.println("Erreur de déconnexion.");
-        } catch (NullPointerException a) {
-            a.printStackTrace();
-            System.out.println("Erreur de déconnexion. NULL");
         }
     }
     public ResultSet query(String request) {
@@ -93,13 +95,13 @@ public class ConnectionSQL{
     public void addWine(Wine wine) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO Wine (name, region, age, degree_of_alcohol, capacityML, type_wine, start_maturity, end_maturity) VALUES(?,?,?,?,?,?,?,?)");
+                    .prepareStatement("INSERT INTO Wine (name, region, age, degree_of_alcohol, capacity_ml, type_wine, start_maturity, end_maturity) VALUES(?,?,?,?,?,?,?,?)");
             preparedStatement.setString(1, wine.getName());
             preparedStatement.setString(2, wine.getRegion());
             preparedStatement.setInt(3, wine.getAge());
             preparedStatement.setInt(4, wine.getDegreeOfAlcohol());
             preparedStatement.setInt(5, wine.getCapacityML());
-            preparedStatement.setString(6, wine.getType());
+            preparedStatement.setString(6, wine.getType().getName());
             preparedStatement.setInt(7, wine.getStartMaturity());
             preparedStatement.setInt(8, wine.getEndMaturity());
             preparedStatement.executeUpdate();
@@ -110,13 +112,13 @@ public class ConnectionSQL{
     public void addBeer(Beer beer) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO Beer (name, region, age, degree_of_alcohol, capacityML, type_beer) VALUES(?,?,?,?,?,?)");
+                    .prepareStatement("INSERT INTO Beer (name, region, age, degree_of_alcohol, capacity_ml, type_beer) VALUES(?,?,?,?,?,?)");
             preparedStatement.setString(1, beer.getName());
             preparedStatement.setString(2, beer.getRegion());
             preparedStatement.setInt(3, beer.getAge());
             preparedStatement.setInt(4, beer.getDegreeOfAlcohol());
             preparedStatement.setInt(5, beer.getCapacityML());
-            preparedStatement.setString(6, beer.getType());
+            preparedStatement.setString(6, beer.getType().getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -125,7 +127,7 @@ public class ConnectionSQL{
     public void addStrongAlcohol(StrongAlcohol alcohol) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO StrongAlcohol (name, region, age, degree_of_alcohol, capacityML) VALUES(?,?,?,?,?)");
+                    .prepareStatement("INSERT INTO StrongAlcohol (name, region, age, degree_of_alcohol, capacity_ml) VALUES(?,?,?,?,?)");
             preparedStatement.setString(1, alcohol.getName());
             preparedStatement.setString(2, alcohol.getRegion());
             preparedStatement.setInt(3, alcohol.getAge());
@@ -138,43 +140,24 @@ public class ConnectionSQL{
     }
     public List<Wine> getWines() throws SQLException {
         List<Wine> wines = new LinkedList<>();
-        TypeWine typeNewWine = null;
+        TypeWine typeNewWine;
         ResultSet resultSet = this.query("SELECT * FROM Wine");
         while (resultSet.next()) {
-            switch (resultSet.getString("type_wine")) {
-                case "ROUGE":
-                    typeNewWine = TypeWine.ROUGE;
-                    break;
-                case "ROSE":
-                    typeNewWine = TypeWine.ROSE;
-                    break;
-                default:
-                    typeNewWine = TypeWine.BLANC;
-            }
-            Wine wine = new Wine(resultSet.getString("name"), resultSet.getString("region"), resultSet.getInt("age"), resultSet.getInt("degree_of_alcohol"), resultSet.getInt("capacityML"), typeNewWine, resultSet.getInt("start_maturity"), resultSet.getInt("end_maturity"));
+            typeNewWine = TypeWine.getFromName(resultSet.getString("type_wine"));
+            System.out.println(typeNewWine);
+            Wine wine = new Wine(resultSet.getString("name"), resultSet.getString("region"), resultSet.getInt("age"), resultSet.getInt("degree_of_alcohol"), resultSet.getInt("capacity_ml"), typeNewWine, resultSet.getInt("start_maturity"), resultSet.getInt("end_maturity"));
             wines.add(wine);
         }
         return wines;
     }
     public List<Beer> getBeer() throws SQLException {
         List<Beer> beers = new LinkedList<>();
-        TypeBeer typeNewBeer = null;
+        TypeBeer typeNewBeer;
         ResultSet resultSet = this.query("SELECT * FROM Beer");
         while (resultSet.next()) {
-            switch (resultSet.getString("type_beer")) {
-                case "BLANCHE":
-                    typeNewBeer = TypeBeer.BLANCHE;
-                    break;
-                case "BLONDE":
-                    typeNewBeer = TypeBeer.BLONDE;
-                    break;
-                case "BRUNE":
-                    typeNewBeer = TypeBeer.BRUNE;
-                    break;
-                default:
-                    typeNewBeer = TypeBeer.ROUSSE;
-            }
-            Beer beer = new Beer(resultSet.getString("name"), resultSet.getString("region"), resultSet.getInt("age"), resultSet.getInt("degree_of_alcohol"), resultSet.getInt("capacityML"), typeNewBeer);
+            typeNewBeer = TypeBeer.getFromName(resultSet.getString("type_beer"));
+
+            Beer beer = new Beer(resultSet.getString("name"), resultSet.getString("region"), resultSet.getInt("age"), resultSet.getInt("degree_of_alcohol"), resultSet.getInt("capacity_ml"), typeNewBeer);
             beers.add(beer);
         }
         return beers;
@@ -183,13 +166,13 @@ public class ConnectionSQL{
         List<StrongAlcohol> strongAlcohol = new LinkedList<>();
         ResultSet resultSet = this.query("SELECT * FROM StrongAlcohol");
         while (resultSet.next()) {
-            StrongAlcohol alcohol = new StrongAlcohol(resultSet.getString("name"), resultSet.getString("region"), resultSet.getInt("age"), resultSet.getInt("degree_of_alcohol"), resultSet.getInt("capacityML"));
+            StrongAlcohol alcohol = new StrongAlcohol(resultSet.getString("name"), resultSet.getString("region"), resultSet.getInt("age"), resultSet.getInt("degree_of_alcohol"), resultSet.getInt("capacity_ml"));
             strongAlcohol.add(alcohol);
         }
         return strongAlcohol;
     }
-    public List getAllAlcohol() throws  SQLException {
-        List allAlcohol = new LinkedList();
+    public List<Alcohol> getAllAlcohol() throws  SQLException {
+        List<Alcohol> allAlcohol = new LinkedList();
         allAlcohol.addAll(this.getWines());
         allAlcohol.addAll(this.getBeer());
         allAlcohol.addAll(this.getStrongAlcohol());

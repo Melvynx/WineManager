@@ -1,9 +1,10 @@
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class WineManager {
     private static Scanner scanner = new Scanner(System.in);
+
+    private static ConnectionSQL connection = new ConnectionSQL("db.db");
 
     public static void main(String[] args) throws SQLException {
 
@@ -32,38 +33,36 @@ public class WineManager {
             }
             //List alcohol
             if (chosenOption == 2) {
-                ConnectionSQL connection = new ConnectionSQL("db.db");
                 connection.connect();
-                connection.createTable();
 
                 System.out.println("Voici la list des vins présent acutellement !");
                 System.out.println("Quelle Alcool voulez-vous afficher ?");
                 int numberSearch = questionSearch();
                 switch (numberSearch) {
                     case 1:
-                        List alcohols = connection.getAllAlcohol();
-                        for (Object o : alcohols) {
-                            System.out.println(o);
+                        List<Alcohol> alcohols = connection.getAllAlcohol();
+                        for (Alcohol alcohol : alcohols) {
+                            System.out.println(alcohol);
                         }
                         break;
                     case 2:
-                        List alcoholFiltredWine = connection.getWines();
-                        for (Object o : alcoholFiltredWine) {
-                            System.out.println(o);
+                        List<Wine> alcoholFiltredWine = connection.getWines();
+                        for (Wine wine : alcoholFiltredWine) {
+                            System.out.println(wine);
                         }
                         break;
                     case 3:
-                        List alcoholFiltredBeer = connection.getStrongAlcohol();
-                        for (Object o : alcoholFiltredBeer) {
-                            System.out.println(o);
+                        List<Beer> alcoholFiltredBeer = connection.getBeer();
+                        for (Beer beer : alcoholFiltredBeer) {
+                            System.out.println(beer);
                         }
+                        break;
                     case 4:
-                        List alcoholFiltredStrongAlcohol = connection.getBeer();
-                        for (Object o : alcoholFiltredStrongAlcohol) {
-                            System.out.println(o);
+                        List<StrongAlcohol> alcoholFiltredStrongAlcohol = connection.getStrongAlcohol();
+                        for (StrongAlcohol strongAlcohol : alcoholFiltredStrongAlcohol) {
+                            System.out.println(strongAlcohol);
                         }
-                    default:
-                        System.out.println("");
+                        break;
                 }
                 connection.close();
             }
@@ -79,9 +78,7 @@ public class WineManager {
     |------------------------------------------------------------------------|
      */
     private static void connectionDB() {
-        ConnectionSQL connection = new ConnectionSQL("src/lib/Alcohol.db");
         connection.connect();
-        connection.createTable();
     }
     private static String answerName(){
         String name;
@@ -260,9 +257,7 @@ public class WineManager {
         Wine newWine = new Wine(nameNewWine, regionNewWine, ageNewWine, degreeOfAlcoholNewWine, capacityNewWine, typeNewWine, startMaturity, endMaturity);
         System.out.println(newWine);
 
-        ConnectionSQL connection = new ConnectionSQL("db.db");
         connection.connect();
-        connection.createTable();
         connection.addWine(newWine);
     }
     private static void newBeer() {
@@ -281,9 +276,7 @@ public class WineManager {
         Beer newBeer = new Beer(nameNewBeer, regionNewBeer, ageNewBeer, degreeOfAlcoholNewBeer, capacityNewBeer, typeNewBeer);
         System.out.println(newBeer);
 
-        ConnectionSQL connection = new ConnectionSQL("db.db");
         connection.connect();
-        connection.createTable();
         connection.addBeer(newBeer);
     }
     private static void newAlcohol() {
@@ -300,9 +293,7 @@ public class WineManager {
         StrongAlcohol newAlcohol = new StrongAlcohol( nameNewAlcohol, regionNewAlcohol, ageNewAlcohol, degreeOfAlcoholNewAlcohol, capacityNewAlcohol);
         System.out.println(newAlcohol);
 
-        ConnectionSQL connection = new ConnectionSQL("db.db");
         connection.connect();
-        connection.createTable();
         connection.addStrongAlcohol(newAlcohol);
     }
     private  static int questionSearch() {

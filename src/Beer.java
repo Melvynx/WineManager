@@ -12,19 +12,18 @@ public class Beer extends Alcohol {
     }
     //Fonction
     public String toString() {
-        String str = "\n"+
+        return "\n"+
                 "*---------------------------------------------*\n" +
-                "Bière : "+this.name+
-                "\n \t Elle provient de "+this.region+" et à été crée en "+this.age+". " +
-                "\n \t C'est une bière "+this.type+"."+
-                "\n \t Elle possède "+this.degreeOfAlcohol+"% d'Alcool et contient "+ this.capacityML +"ml.\n"+
+                "Bière : "+ this.name+
+                "\n \t Elle provient de "+ this.region+" et à été crée en "+ this.age+". " +
+                "\n \t C'est une bière "+ this.type.getName()+"."+
+                "\n \t Elle possède "+ this.degreeOfAlcohol+"% d'Alcool et contient "+ this.capacityML +"ml.\n"+
                 "*---------------------------------------------*";
-        return str;
     }
     //Getter
 
-    public String getType() {
-        return String.valueOf(type);
+    public TypeBeer getType() {
+        return this.type;
     }
     //Setter
 
