@@ -3,6 +3,29 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ConnectionSQL{
+    //Variable of DB :
+    String strongAlcoholColumnName = "name";
+    String strongAlcoholColumnRegion = "region";
+    String strongAlcoholColumnAge = "age";
+    String strongAlcoholColumnDegreeOfAlcohol = "degree_of_alcohol";
+    String strongAlcoholColumnCapacityML = "capacity_ml";
+    
+    String beerColumnName = "name";
+    String beerColumnRegion = "region";
+    String beerColumnAge = "age";
+    String beerColumnDegreeOfAlcohol = "degree_of_alcohol";
+    String beerColumnCapacityML = "capacity_ml";
+    String beerColumnType = "type_beer";
+
+    String wineColumnName = "name";
+    String wineColumnRegion = "region";
+    String wineColumnAge = "age";
+    String wineColumnDegreeOfAlcohol = "degree_of_alcohol";
+    String wineColumnCapacityML = "capacity_ml";
+    String wineColumnType = "type_wine";
+    String wineColumnStartMaturity = "start_maturity";
+    String wineColumnEndMaturity = "end_maturity";
+
 
     private String DBPath;
     private Connection connection = null;
@@ -29,31 +52,31 @@ public class ConnectionSQL{
     private void createTable() {
         String sqlAlcohol = "CREATE TABLE IF NOT EXISTS StrongAlcohol (" +
                 "    id INTEGER PRIMARY KEY," +
-                "    name VARCHAR(40) NOT NULL," +
-                "    region VARCHAR(40)," +
-                "    age INTEGER NOT NULL," +
-                "    degree_of_alcohol INTEGER NOT NULL," +
-                "    capacity_ml INTEGER NOT NULL" +
+                "    "+ strongAlcoholColumnName +" VARCHAR(40) NOT NULL," +
+                "    "+ strongAlcoholColumnRegion +" VARCHAR(40)," +
+                "    "+ strongAlcoholColumnAge +" INTEGER NOT NULL," +
+                "    "+ strongAlcoholColumnDegreeOfAlcohol +" INTEGER NOT NULL," +
+                "    "+ strongAlcoholColumnCapacityML +" INTEGER NOT NULL" +
                 ");";
         String sqlBeer = "CREATE TABLE IF NOT EXISTS Beer (" +
                 "    id INTEGER PRIMARY KEY," +
-                "    name VARCHAR(40) NOT NULL," +
-                "    region VARCHAR(40)," +
-                "    age INTEGER NOT NULL," +
-                "    degree_of_alcohol INTEGER NOT NULL," +
-                "    capacity_ml INTEGER NOT NULL," +
-                "    type_beer VARCHAR(10)" +
+                "    "+ beerColumnName +" VARCHAR(40) NOT NULL," +
+                "    "+ beerColumnRegion +" VARCHAR(40)," +
+                "    "+ beerColumnAge +" INTEGER NOT NULL," +
+                "    "+ beerColumnDegreeOfAlcohol +" INTEGER NOT NULL," +
+                "    "+ beerColumnCapacityML +" INTEGER NOT NULL," +
+                "    "+ beerColumnType +" VARCHAR(10)" +
                 ");";
         String sqlWine = "CREATE TABLE IF NOT EXISTS Wine (" +
                 "    id INTEGER PRIMARY KEY," +
-                "    name VARCHAR(40) NOT NULL," +
-                "    region VARCHAR(40)," +
-                "    age INTEGER NOT NULL," +
-                "    degree_of_alcohol INTEGER NOT NULL," +
-                "    capacity_ml INTEGER NOT NULL," +
-                "    type_wine VARCHAR(10), " +
-                "    start_maturity INTEGER NOT NULL," +
-                "    end_maturity INTEGER NOT NULL" +
+                "    "+ wineColumnName +" VARCHAR(40) NOT NULL," +
+                "    "+ wineColumnRegion +" VARCHAR(40)," +
+                "    "+ wineColumnAge +" INTEGER NOT NULL," +
+                "    "+ wineColumnDegreeOfAlcohol +" INTEGER NOT NULL," +
+                "    "+ wineColumnCapacityML +" INTEGER NOT NULL," +
+                "    "+ wineColumnType +" VARCHAR(10), " +
+                "    "+ wineColumnStartMaturity +" INTEGER NOT NULL," +
+                "    "+ wineColumnEndMaturity +" INTEGER NOT NULL" +
                 ");";
         if (connection == null) {
             return;
@@ -95,7 +118,7 @@ public class ConnectionSQL{
     public void addWine(Wine wine) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO Wine (name, region, age, degree_of_alcohol, capacity_ml, type_wine, start_maturity, end_maturity) VALUES(?,?,?,?,?,?,?,?)");
+                    .prepareStatement("INSERT INTO Wine ("+ wineColumnName+ ", "+wineColumnRegion+", "+wineColumnAge+", "+wineColumnDegreeOfAlcohol+", "+wineColumnCapacityML+", "+wineColumnType+", "+wineColumnStartMaturity+", "+wineColumnEndMaturity+") VALUES(?,?,?,?,?,?,?,?)");
             preparedStatement.setString(1, wine.getName());
             preparedStatement.setString(2, wine.getRegion());
             preparedStatement.setInt(3, wine.getAge());
@@ -112,7 +135,7 @@ public class ConnectionSQL{
     public void addBeer(Beer beer) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO Beer (name, region, age, degree_of_alcohol, capacity_ml, type_beer) VALUES(?,?,?,?,?,?)");
+                    .prepareStatement("INSERT INTO Beer ("+beerColumnName+", "+beerColumnRegion+","+beerColumnAge+", "+beerColumnDegreeOfAlcohol+", "+beerColumnCapacityML+", "+beerColumnType+") VALUES(?,?,?,?,?,?)");
             preparedStatement.setString(1, beer.getName());
             preparedStatement.setString(2, beer.getRegion());
             preparedStatement.setInt(3, beer.getAge());
@@ -127,7 +150,7 @@ public class ConnectionSQL{
     public void addStrongAlcohol(StrongAlcohol alcohol) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO StrongAlcohol (name, region, age, degree_of_alcohol, capacity_ml) VALUES(?,?,?,?,?)");
+                    .prepareStatement("INSERT INTO StrongAlcohol ("+strongAlcoholColumnName+", "+strongAlcoholColumnRegion+","+strongAlcoholColumnAge+", "+strongAlcoholColumnDegreeOfAlcohol+", "+strongAlcoholColumnCapacityML+") VALUES(?,?,?,?,?)");
             preparedStatement.setString(1, alcohol.getName());
             preparedStatement.setString(2, alcohol.getRegion());
             preparedStatement.setInt(3, alcohol.getAge());
