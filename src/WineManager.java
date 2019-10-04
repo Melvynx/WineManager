@@ -2,11 +2,15 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class WineManager {
-    private static Scanner scanner = new Scanner(System.in);
+    public static String dbPath = "db.db";
 
-    private static ConnectionSQL connection = new ConnectionSQL("db.db");
+    private static Scanner scanner = null;
+    static ConnectionSQL connection = null;
 
     public static void main(String[] args) throws SQLException {
+        scanner = new Scanner(System.in);
+        connection = new ConnectionSQL(dbPath);
+        connection.connect();
 
         Integer chosenOption;
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*\t" +
@@ -33,7 +37,6 @@ public class WineManager {
             }
             //List alcohol
             if (chosenOption == 2) {
-                connection.connect();
 
                 System.out.println("Voici la list des vins présent acutellement !");
                 System.out.println("Quelle Alcool voulez-vous afficher ?");
@@ -68,6 +71,8 @@ public class WineManager {
             }
             //Redo ?
         } while(chosenOption != 3);
+
+        connection.close();
     }
     /*
     |------------------------------------------------------------------------|
@@ -253,7 +258,6 @@ public class WineManager {
         Wine newWine = new Wine(nameNewWine, regionNewWine, ageNewWine, degreeOfAlcoholNewWine, capacityNewWine, typeNewWine, startMaturity, endMaturity);
         System.out.println(newWine);
 
-        connection.connect();
         connection.addWine(newWine);
     }
     private static void newBeer() {
@@ -272,7 +276,6 @@ public class WineManager {
         Beer newBeer = new Beer(nameNewBeer, regionNewBeer, ageNewBeer, degreeOfAlcoholNewBeer, capacityNewBeer, typeNewBeer);
         System.out.println(newBeer);
 
-        connection.connect();
         connection.addBeer(newBeer);
     }
     private static void newAlcohol() {
@@ -289,7 +292,6 @@ public class WineManager {
         StrongAlcohol newAlcohol = new StrongAlcohol( nameNewAlcohol, regionNewAlcohol, ageNewAlcohol, degreeOfAlcoholNewAlcohol, capacityNewAlcohol);
         System.out.println(newAlcohol);
 
-        connection.connect();
         connection.addStrongAlcohol(newAlcohol);
     }
     private  static int questionSearch() {

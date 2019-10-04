@@ -1,13 +1,29 @@
 import com.sun.corba.se.pept.encoding.InputObject;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class WineManagerTest {
+
+    @BeforeEach
+    void setup() {
+        WineManager.dbPath = "test/test.db";
+    }
+
+    @AfterEach
+    void deleteDb() {
+        File db = new File("test/test.db");
+        if (db.exists()) {
+            db.delete();
+        }
+    }
+
+
 
     @Test
     void TestExit() throws SQLException {
@@ -16,6 +32,10 @@ class WineManagerTest {
         System.setIn(in);
 
         WineManager.main(null);
+
+        WineManager.connection.connect();
+        assertEquals(0, WineManager.connection.getAllAlcohol().size());
+        WineManager.connection.close();
     }
 
     @Test
@@ -42,6 +62,10 @@ class WineManagerTest {
         System.setIn(in);
 
         WineManager.main(null);
+
+        WineManager.connection.connect();
+        assertEquals(1, WineManager.connection.getAllAlcohol().size());
+        WineManager.connection.close();
     }
     @Test
     void TestAddBeer() throws SQLException {
@@ -61,6 +85,10 @@ class WineManagerTest {
         System.setIn(in);
 
         WineManager.main(null);
+
+        WineManager.connection.connect();
+        assertEquals(1, WineManager.connection.getAllAlcohol().size());
+        WineManager.connection.close();
     }
     @Test
     void TestAddAlcohol() throws SQLException {
@@ -77,9 +105,24 @@ class WineManagerTest {
         System.setIn(in);
 
         WineManager.main(null);
+
+        WineManager.connection.connect();
+        assertEquals(1, WineManager.connection.getAllAlcohol().size());
+        WineManager.connection.close();
     }
     @Test
     void TestShowAll() throws SQLException {
+        WineManager.connection.connect();
+        WineManager.connection.addBeer(new Beer(
+                "TestName", "TestRegion", 2019, 30, 1000, TypeBeer.BLANCHE
+        ));
+        WineManager.connection.addStrongAlcohol(new StrongAlcohol(
+                "TestName", "TestRegion", 2019, 30, 1000
+        ));
+        WineManager.connection.addWine(new Wine(
+                "TestName", "TestRegion", 2019, 30, 1000, TypeWine.ROSE, 2019, 2022
+        ));
+        WineManager.connection.close();
 
         String input = "2\n" +
                 "1\n" +
@@ -87,9 +130,18 @@ class WineManagerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         WineManager.main(null);
+
+        WineManager.connection.connect();
+        assertEquals(3, WineManager.connection.getAllAlcohol().size());
+        WineManager.connection.close();
     }
     @Test
     void TestShowBeer() throws SQLException {
+        WineManager.connection.connect();
+        WineManager.connection.addBeer(new Beer(
+                "TestName", "TestRegion", 2019, 30, 1000, TypeBeer.BLANCHE
+        ));
+        WineManager.connection.close();
 
         String input = "2\n" +
                 "3\n" +
@@ -97,5 +149,9 @@ class WineManagerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         WineManager.main(null);
+
+        WineManager.connection.connect();
+        assertEquals(1, WineManager.connection.getAllAlcohol().size());
+        WineManager.connection.close();
     }
 }
