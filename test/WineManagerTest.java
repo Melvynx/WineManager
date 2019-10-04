@@ -42,7 +42,6 @@ class WineManagerTest {
         System.setIn(in);
 
         WineManager.main(null);
-
     }
     @Test
     void TestAddBeer() throws SQLException {
