@@ -1,3 +1,4 @@
+
 public enum TypeBeer{
     BLANCHE ("Blanche"),
     BLONDE ("Blonde"),
@@ -11,5 +12,14 @@ public enum TypeBeer{
 
     public String getName() {
         return name;
+    }
+
+    static public TypeBeer getFromName(String name) {
+        for (TypeBeer candidate : values()) {
+            if (candidate.name.equals(name)) {
+                return candidate;
+            }
+        }
+        return null;
     }
 }
