@@ -67,7 +67,6 @@ public class WineManager {
                         }
                         break;
                 }
-                connection.close();
             }
             //Redo ?
         } while(chosenOption != 3);
@@ -138,10 +137,10 @@ public class WineManager {
                 capacity = scanner.nextInt();
             } catch (java.util.InputMismatchException a) {
                 scanner.next();
-                System.out.println("Merci de saisir des nombres. [0 - 1000 ML]");
+                System.out.println("Merci de saisir des nombres. [0 - 10000 ML]");
                 capacity = 1;
             }
-        } while (capacity > 1000 || capacity < 10);
+        } while (capacity > 10000 || capacity < 10);
         return capacity;
     }
     private static TypeWine answerTypeWine() {
@@ -186,7 +185,7 @@ public class WineManager {
                 System.out.println("Merci de saisir des nombres. [1000 - "+yearToday+"]");
                 dateGive = 1;
             }
-        } while (dateGive > yearToday || dateGive < 300);
+        } while (dateGive > yearToday-10 || dateGive < 300);
         return dateGive;
     }
     private static int answerEndMaturity(int startMaturity) {

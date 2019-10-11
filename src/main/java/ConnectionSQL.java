@@ -4,27 +4,27 @@ import java.util.List;
 
 public class ConnectionSQL{
     //Variable of DB :
-    String strongAlcoholColumnName = "name";
-    String strongAlcoholColumnRegion = "region";
-    String strongAlcoholColumnAge = "age";
-    String strongAlcoholColumnDegreeOfAlcohol = "degree_of_alcohol";
-    String strongAlcoholColumnCapacityML = "capacity_ml";
+    public final String strongAlcoholColumnName = "name";
+    public final String strongAlcoholColumnRegion = "region";
+    public final String strongAlcoholColumnAge = "age";
+    public final String strongAlcoholColumnDegreeOfAlcohol = "degree_of_alcohol";
+    public final String strongAlcoholColumnCapacityML = "capacity_ml";
     
-    String beerColumnName = "name";
-    String beerColumnRegion = "region";
-    String beerColumnAge = "age";
-    String beerColumnDegreeOfAlcohol = "degree_of_alcohol";
-    String beerColumnCapacityML = "capacity_ml";
-    String beerColumnType = "type_beer";
+    public final String beerColumnName = "name";
+    public final String beerColumnRegion = "region";
+    public final String beerColumnAge = "age";
+    public final String beerColumnDegreeOfAlcohol = "degree_of_alcohol";
+    public final String beerColumnCapacityML = "capacity_ml";
+    public final String beerColumnType = "type_beer";
 
-    String wineColumnName = "name";
-    String wineColumnRegion = "region";
-    String wineColumnAge = "age";
-    String wineColumnDegreeOfAlcohol = "degree_of_alcohol";
-    String wineColumnCapacityML = "capacity_ml";
-    String wineColumnType = "type_wine";
-    String wineColumnStartMaturity = "start_maturity";
-    String wineColumnEndMaturity = "end_maturity";
+    public final String wineColumnName = "name";
+    public final String wineColumnRegion = "region";
+    public final String wineColumnAge = "age";
+    public final String wineColumnDegreeOfAlcohol = "degree_of_alcohol";
+    public final String wineColumnCapacityML = "capacity_ml";
+    public final String wineColumnType = "type_wine";
+    public final String wineColumnStartMaturity = "start_maturity";
+    public final String wineColumnEndMaturity = "end_maturity";
 
 
     private String DBPath;
@@ -167,7 +167,7 @@ public class ConnectionSQL{
         ResultSet resultSet = this.query("SELECT * FROM Wine");
         while (resultSet.next()) {
             typeNewWine = TypeWine.getFromName(resultSet.getString("type_wine"));
-            Wine wine = new Wine(resultSet.getString("name"), resultSet.getString("region"), resultSet.getInt("age"), resultSet.getInt("degree_of_alcohol"), resultSet.getInt("capacity_ml"), typeNewWine, resultSet.getInt("start_maturity"), resultSet.getInt("end_maturity"));
+            Wine wine = new Wine(resultSet.getString(wineColumnName), resultSet.getString(wineColumnRegion), resultSet.getInt(wineColumnAge), resultSet.getInt(wineColumnDegreeOfAlcohol), resultSet.getInt(wineColumnCapacityML), typeNewWine, resultSet.getInt(wineColumnStartMaturity), resultSet.getInt(wineColumnEndMaturity));
             wines.add(wine);
         }
         return wines;
@@ -179,7 +179,7 @@ public class ConnectionSQL{
         while (resultSet.next()) {
             typeNewBeer = TypeBeer.getFromName(resultSet.getString("type_beer"));
 
-            Beer beer = new Beer(resultSet.getString("name"), resultSet.getString("region"), resultSet.getInt("age"), resultSet.getInt("degree_of_alcohol"), resultSet.getInt("capacity_ml"), typeNewBeer);
+            Beer beer = new Beer(resultSet.getString(beerColumnName), resultSet.getString(beerColumnRegion), resultSet.getInt(beerColumnAge), resultSet.getInt(beerColumnDegreeOfAlcohol), resultSet.getInt(beerColumnCapacityML), typeNewBeer);
             beers.add(beer);
         }
         return beers;
@@ -188,7 +188,7 @@ public class ConnectionSQL{
         List<StrongAlcohol> strongAlcohol = new LinkedList<>();
         ResultSet resultSet = this.query("SELECT * FROM StrongAlcohol");
         while (resultSet.next()) {
-            StrongAlcohol alcohol = new StrongAlcohol(resultSet.getString("name"), resultSet.getString("region"), resultSet.getInt("age"), resultSet.getInt("degree_of_alcohol"), resultSet.getInt("capacity_ml"));
+            StrongAlcohol alcohol = new StrongAlcohol(resultSet.getString(strongAlcoholColumnName), resultSet.getString(strongAlcoholColumnRegion), resultSet.getInt(strongAlcoholColumnAge), resultSet.getInt(strongAlcoholColumnDegreeOfAlcohol), resultSet.getInt(strongAlcoholColumnCapacityML));
             strongAlcohol.add(alcohol);
         }
         return strongAlcohol;
