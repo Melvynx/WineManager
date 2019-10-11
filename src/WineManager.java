@@ -1,34 +1,25 @@
-import sun.java2d.jules.IdleTileCache;
-
-import javax.xml.bind.SchemaOutputResolver;
 import java.util.Calendar;
 import java.util.Scanner;
 
 public class WineManager {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Integer chosenOption = null;
-        boolean work = true;
-        System.out.println(TypeWine.Rose.name());
-        int yearToday = Calendar.getInstance().get(Calendar.YEAR);
+        Integer chosenOption;
+        boolean work;
         System.out.println("Bienvenue dans la Cave !" +
                 "\n Vous retrouverez tout votre répértoire d'Alcool ici. Il est possible d'y stocker des bières, du Vin et même de l'Alcool fort." +
                 "\n \t Commencez maintenant en ajoutant un Alcool ou en parcourant votre List !");
         do {
             do {
-                System.out.println("");
-                chosenOption = null;
-                if (chosenOption == null) {
-                    System.out.println("1 : Ajouter un nouvelle Alcoool.");
-                    System.out.println("2 : Rechercher un Alcool !");
-                    try {
-                        chosenOption = sc.nextInt();
-                    } catch (java.util.InputMismatchException a) {
-                       sc.next();
-                       System.out.println("Merci de saisir un nombre. [1 / 2]");
-                       chosenOption = null;
-                       continue;
-                    }
+                System.out.println("1 : Ajouter un nouvelle Alcoool.");
+                System.out.println("2 : Rechercher un Alcool !");
+                try {
+                    chosenOption = sc.nextInt();
+                } catch (java.util.InputMismatchException a) {
+                   sc.next();
+                   System.out.println("Merci de saisir un nombre. [1 / 2]");
+                   chosenOption = null;
+                   continue;
                 }
                 if (chosenOption > 2 || chosenOption < 1) {
                     System.out.println("Il vous est demander le nombre 1 ou 2, merci de ne pas introduire d'autre nombre.");
@@ -36,9 +27,7 @@ public class WineManager {
                 }
             } while (chosenOption == null);
 
-            String typeAlcohol = "";
-            Integer numberTypeAlcohol = null;
-            boolean canBeCreate = false;
+            Integer numberTypeAlcohol;
 
             //Processus pour ajouter un nouvelle Alcool
             if (chosenOption == 1) {
@@ -61,58 +50,18 @@ public class WineManager {
                     }
                 } while (numberTypeAlcohol == null);
                 if (numberTypeAlcohol == 1) {
-                    String nameNewWine = answerName();
-                    System.out.println("Le nom de ton Alcool est : " + nameNewWine+".");
-                    String regionNewWine = answerRegion();
-                    System.out.println("Le nom de ton Alcool est : " + regionNewWine+".");
-                    int ageNewWine = answerAge();
-                    System.out.println("L'année de ton Alcool est : " + ageNewWine+".");
-                    int degreeOfAlcoholNewWine = answerDegreeOfAlcohol();
-                    System.out.println("Le degrée de votre Alcool est : " + degreeOfAlcoholNewWine+"% .");
-                    int capacityNewWine = answerCapacity();
-                    System.out.println("Votre bouteille contient "+capacityNewWine+" ml.");
-                    String typeNewWine = answerTypeWine();
-                    System.out.println("Votre vins est du "+typeNewWine+".");
-                    int startMaturity = answerStartMaturity();
-                    int endMaturity = answerEndMaturity(startMaturity);
-                    System.out.println("Votre vin est à consommer entre "+startMaturity+" et "+ endMaturity +".");
-                    Wine newWine = new Wine(nameNewWine, regionNewWine, ageNewWine, degreeOfAlcoholNewWine, capacityNewWine, typeNewWine, startMaturity, endMaturity);
-                    System.out.println(newWine);
+                     newWine();
                 }
                 if (numberTypeAlcohol == 2) {
-                    String nameNewBeer = answerName();
-                    System.out.println("Le nom de ton Alcool est : " + nameNewBeer+".");
-                    String regionNewBeer = answerRegion();
-                    System.out.println("Le nom de ton Alcool est : " + regionNewBeer+".");
-                    int ageNewBeer = answerAge();
-                    System.out.println("L'année de ton Alcool est : " + ageNewBeer+".");
-                    int degreeOfAlcoholNewBeer = answerDegreeOfAlcohol();
-                    System.out.println("Le degrée de votre Alcool est : " + degreeOfAlcoholNewBeer+"% .");
-                    int capacityNewBeer = answerCapacity();
-                    System.out.println("Votre bouteille contient "+capacityNewBeer+" ml.");
-                    String typeNewBeer = answerTypeBeer();
-                    System.out.println("Votre bière est une "+typeNewBeer+".");
-                    Beer newBeer = new Beer(nameNewBeer, regionNewBeer, ageNewBeer, degreeOfAlcoholNewBeer, capacityNewBeer, typeNewBeer);
-                    System.out.println(newBeer);
+                    newBeer();
                 }
                 if (numberTypeAlcohol == 3) {
-                    String nameNewAlcohol = answerName();
-                    System.out.println("Le nom de ton Alcool est : " + nameNewAlcohol+".");
-                    String regionNewAlcohol = answerRegion();
-                    System.out.println("Le nom de ton Alcool est : " + regionNewAlcohol+".");
-                    int ageNewAlcohol = answerAge();
-                    System.out.println("L'année de ton Alcool est : " + ageNewAlcohol+".");
-                    int degreeOfAlcoholNewAlcohol = answerDegreeOfAlcohol();
-                    System.out.println("Le degrée de votre Alcool est : " + degreeOfAlcoholNewAlcohol+"% .");
-                    int capacityNewAlcohol = answerCapacity();
-                    System.out.println("Votre bouteille contient "+capacityNewAlcohol+" ml.");
-                    StrongAlcohol newAlcohol = new StrongAlcohol( nameNewAlcohol, regionNewAlcohol, ageNewAlcohol, degreeOfAlcoholNewAlcohol, capacityNewAlcohol);
-                    System.out.println(newAlcohol);
+                    newAlcohol();
                 }
             }
             //Processus pour afficher un/des alcool(s)
             if (chosenOption == 2) {
-
+                System.out.println("Voici la list des vins présent acutellement !");
             }
             Scanner sc2 = new Scanner(System.in);
             System.out.println("Voulez vous effectuer d'autre opération ?[Y/N]");
@@ -128,29 +77,24 @@ public class WineManager {
                     charOfChoiceCorrect = true;
                 }
             }
-            if (charOfChoice == 'y' || charOfChoice == 'Y') {
-                work = true;
-            } else {
-                work = false;
-            }
-        } while(work == true);
+            work = charOfChoice == 'y' || charOfChoice == 'Y';
+        } while(work);
 
     }
-    Scanner scA = new Scanner(System.in);
 
 
-    public static String answerName(){
+    private static String answerName(){
         Scanner scA = new Scanner(System.in);
-        String name = "";
+        String name;
         do {
             System.out.println("Quelle est le nom de votre Alcool ?");
             name = scA.nextLine();
         } while (name.length() < 3 || name.length() > 30);
         return name;
     }
-    public static String answerRegion() {
+    private static String answerRegion() {
         Scanner scA = new Scanner(System.in);
-        String region = "";
+        String region;
         do {
             System.out.println("Quelle est la région de votre Alcool ?");
             region = scA.nextLine();
@@ -158,8 +102,8 @@ public class WineManager {
         return region;
 
     }
-    public static int answerAge() {
-        int dateGive = 1;
+    private static int answerAge() {
+        int dateGive;
         int yearToday = Calendar.getInstance().get(Calendar.YEAR);
         Scanner scA = new Scanner(System.in);
         do {
@@ -170,13 +114,12 @@ public class WineManager {
                 scA.next();
                 System.out.println("Merci de saisir des nombres. [1000 - "+yearToday+"]");
                 dateGive = 1;
-                continue;
             }
         } while (dateGive > yearToday || dateGive < 1000);
         return dateGive;
     }
-    public static int answerDegreeOfAlcohol() {
-        int degreeOfAlcohol = 1;
+    private static int answerDegreeOfAlcohol() {
+        int degreeOfAlcohol;
         Scanner scA = new Scanner(System.in);
         do {
             System.out.println("Quelle est le degré d'Alcool bouteille ? [Nombre entre 1 et 100.]");
@@ -186,13 +129,12 @@ public class WineManager {
                 scA.next();
                 System.out.println("Merci de saisir des nombres. [0 - 100]");
                 degreeOfAlcohol = -1;
-                continue;
             }
         } while (degreeOfAlcohol > 100 || degreeOfAlcohol < 0);
         return degreeOfAlcohol;
     }
-    public static int answerCapacity() {
-        int capacity = 1;
+    private static int answerCapacity() {
+        int capacity;
         Scanner scA = new Scanner(System.in);
         do {
             System.out.println("Combien de ML contient votre bouteille d'Alcool ? [Nombre entre 1 et 1000.]");
@@ -202,15 +144,14 @@ public class WineManager {
                 scA.next();
                 System.out.println("Merci de saisir des nombres. [0 - 1000 ML]");
                 capacity = 1;
-                continue;
             }
         } while (capacity > 1000 || capacity < 10);
         return capacity;
     }
-    public static String answerTypeWine() {
+    private static String answerTypeWine() {
         String type ="";
         Scanner scA = new Scanner(System.in);
-        Integer numberTypeWine = null;
+        Integer numberTypeWine;
         do {
             System.out.println("1 - Blanc");
             System.out.println("2 - Rouge");
@@ -229,17 +170,17 @@ public class WineManager {
             }
         } while (numberTypeWine == null);
         switch (numberTypeWine) {
-            case 1: type = TypeWine.Blanc.getName();
+            case 1: type = TypeWine.BLANC.getName();
                 break;
-            case 2: type = TypeWine.Rouge.getName();
+            case 2: type = TypeWine.ROUGE.getName();
                 break;
-            case 3: type = TypeWine.Rose.getName();
+            case 3: type = TypeWine.ROSE.getName();
                 break;
         }
         return type;
     }
-    public static int answerStartMaturity() {
-        int dateGive = 1;
+    private static int answerStartMaturity() {
+        int dateGive;
         int yearToday = Calendar.getInstance().get(Calendar.YEAR);
         Scanner scA = new Scanner(System.in);
         do {
@@ -250,13 +191,12 @@ public class WineManager {
                 scA.next();
                 System.out.println("Merci de saisir des nombres. [1000 - "+yearToday+"]");
                 dateGive = 1;
-                continue;
             }
         } while (dateGive > yearToday || dateGive < 300);
         return dateGive;
     }
-    public static int answerEndMaturity(int startMaturity) {
-        int dateGive = 1;
+    private static int answerEndMaturity(int startMaturity) {
+        int dateGive;
         int yearToday = Calendar.getInstance().get(Calendar.YEAR);
         Scanner scA = new Scanner(System.in);
         do {
@@ -267,15 +207,15 @@ public class WineManager {
                 scA.next();
                 System.out.println("Merci de saisir des nombres. ["+startMaturity+" - 2XXX]");
                 dateGive = 1;
-                continue;
             }
         } while (dateGive < yearToday || dateGive < startMaturity);
         return dateGive;
     }
-    public static String answerTypeBeer() {
+    private static String answerTypeBeer() {
+        System.out.println("Quelle est le type de votre bière ?");
         String type ="";
         Scanner scA = new Scanner(System.in);
-        Integer numberTypeBeer= null;
+        Integer numberTypeBeer;
         do {
             System.out.println("1 - Blanche");
             System.out.println("2 - Blonde");
@@ -295,15 +235,64 @@ public class WineManager {
             }
         } while (numberTypeBeer == null);
         switch (numberTypeBeer) {
-            case 1: type = TypeBeer.Blanche.getName();
+            case 1: type = TypeBeer.BLANCHE.getName();
                 break;
-            case 2: type = TypeBeer.Blonde.getName();
+            case 2: type = TypeBeer.BLONDE.getName();
                 break;
-            case 3: type = TypeBeer.Brune.getName();
+            case 3: type = TypeBeer.BRUNE.getName();
                 break;
-            case 4: type = TypeBeer.Rousse.getName();
+            case 4: type = TypeBeer.ROUSSE.getName();
                 break;
         }
         return type;
+    }
+    private static void newWine() {
+        String nameNewWine = answerName();
+        System.out.println("Le nom de ton Alcool est : " + nameNewWine+".");
+        String regionNewWine = answerRegion();
+        System.out.println("Le nom de ton Alcool est : " + regionNewWine+".");
+        int ageNewWine = answerAge();
+        System.out.println("L'année de ton Alcool est : " + ageNewWine+".");
+        int degreeOfAlcoholNewWine = answerDegreeOfAlcohol();
+        System.out.println("Le degrée de votre Alcool est : " + degreeOfAlcoholNewWine+"% .");
+        int capacityNewWine = answerCapacity();
+        System.out.println("Votre bouteille contient "+capacityNewWine+" ml.");
+        String typeNewWine = answerTypeWine();
+        System.out.println("Votre vins est du "+typeNewWine+".");
+        int startMaturity = answerStartMaturity();
+        int endMaturity = answerEndMaturity(startMaturity);
+        System.out.println("Votre vin est à consommer entre "+startMaturity+" et "+ endMaturity +".");
+        Wine newWine = new Wine(nameNewWine, regionNewWine, ageNewWine, degreeOfAlcoholNewWine, capacityNewWine, typeNewWine, startMaturity, endMaturity);
+        System.out.println(newWine);
+    }
+    private static void newBeer() {
+        String nameNewBeer = answerName();
+        System.out.println("Le nom de ton Alcool est : " + nameNewBeer+".");
+        String regionNewBeer = answerRegion();
+        System.out.println("Le nom de ton Alcool est : " + regionNewBeer+".");
+        int ageNewBeer = answerAge();
+        System.out.println("L'année de ton Alcool est : " + ageNewBeer+".");
+        int degreeOfAlcoholNewBeer = answerDegreeOfAlcohol();
+        System.out.println("Le degrée de votre Alcool est : " + degreeOfAlcoholNewBeer+"% .");
+        int capacityNewBeer = answerCapacity();
+        System.out.println("Votre bouteille contient "+capacityNewBeer+" ml.");
+        String typeNewBeer = answerTypeBeer();
+        System.out.println("Votre bière est une "+typeNewBeer+".");
+        Beer newBeer = new Beer(nameNewBeer, regionNewBeer, ageNewBeer, degreeOfAlcoholNewBeer, capacityNewBeer, typeNewBeer);
+        System.out.println(newBeer);
+    }
+    private static void newAlcohol() {
+        String nameNewAlcohol = answerName();
+        System.out.println("Le nom de ton Alcool est : " + nameNewAlcohol+".");
+        String regionNewAlcohol = answerRegion();
+        System.out.println("Le nom de ton Alcool est : " + regionNewAlcohol+".");
+        int ageNewAlcohol = answerAge();
+        System.out.println("L'année de ton Alcool est : " + ageNewAlcohol+".");
+        int degreeOfAlcoholNewAlcohol = answerDegreeOfAlcohol();
+        System.out.println("Le degrée de votre Alcool est : " + degreeOfAlcoholNewAlcohol+"% .");
+        int capacityNewAlcohol = answerCapacity();
+        System.out.println("Votre bouteille contient "+capacityNewAlcohol+" ml.");
+        StrongAlcohol newAlcohol = new StrongAlcohol( nameNewAlcohol, regionNewAlcohol, ageNewAlcohol, degreeOfAlcoholNewAlcohol, capacityNewAlcohol);
+        System.out.println(newAlcohol);
     }
 }
