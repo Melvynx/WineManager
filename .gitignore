@@ -3,7 +3,7 @@
 out
 .xml
 src/lib
-
+.idea
 
 # Ignore Gradle build output directory
 build
