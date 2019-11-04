@@ -1,3 +1,10 @@
+import alcoholClass.Alcohol;
+import alcoholClass.Beer;
+import alcoholClass.StrongAlcohol;
+import alcoholClass.typeAlcohol.TypeBeer;
+import alcoholClass.Wine;
+import alcoholClass.typeAlcohol.TypeWine;
+
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -164,7 +171,7 @@ public class ConnectionSQL{
     public List<Wine> getWines() throws SQLException {
         List<Wine> wines = new LinkedList<>();
         TypeWine typeNewWine;
-        ResultSet resultSet = this.query("SELECT * FROM Wine");
+        ResultSet resultSet = this.query("SELECT * FROM alcoholClass.Wine");
         while (resultSet.next()) {
             typeNewWine = TypeWine.getFromName(resultSet.getString("type_wine"));
             Wine wine = new Wine(resultSet.getString(wineColumnName), resultSet.getString(wineColumnRegion), resultSet.getInt(wineColumnAge), resultSet.getInt(wineColumnDegreeOfAlcohol), resultSet.getInt(wineColumnCapacityML), typeNewWine, resultSet.getInt(wineColumnStartMaturity), resultSet.getInt(wineColumnEndMaturity));
@@ -175,7 +182,7 @@ public class ConnectionSQL{
     public List<Beer> getBeer() throws SQLException {
         List<Beer> beers = new LinkedList<>();
         TypeBeer typeNewBeer;
-        ResultSet resultSet = this.query("SELECT * FROM Beer");
+        ResultSet resultSet = this.query("SELECT * FROM alcoholClass.Beer");
         while (resultSet.next()) {
             typeNewBeer = TypeBeer.getFromName(resultSet.getString("type_beer"));
 
@@ -186,7 +193,7 @@ public class ConnectionSQL{
     }
     public List<StrongAlcohol> getStrongAlcohol() throws SQLException {
         List<StrongAlcohol> strongAlcohol = new LinkedList<>();
-        ResultSet resultSet = this.query("SELECT * FROM StrongAlcohol");
+        ResultSet resultSet = this.query("SELECT * FROM alcoholClass.StrongAlcohol");
         while (resultSet.next()) {
             StrongAlcohol alcohol = new StrongAlcohol(resultSet.getString(strongAlcoholColumnName), resultSet.getString(strongAlcoholColumnRegion), resultSet.getInt(strongAlcoholColumnAge), resultSet.getInt(strongAlcoholColumnDegreeOfAlcohol), resultSet.getInt(strongAlcoholColumnCapacityML));
             strongAlcohol.add(alcohol);

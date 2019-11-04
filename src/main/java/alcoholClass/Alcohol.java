@@ -1,4 +1,6 @@
-abstract class Alcohol {
+package alcoholClass;
+
+public abstract class Alcohol {
     //Variable
     protected String name;
     protected String region;

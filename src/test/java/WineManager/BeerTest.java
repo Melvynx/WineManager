@@ -1,4 +1,5 @@
-import static org.junit.jupiter.api.Assertions.*;
+import alcoholClass.Beer;
+import alcoholClass.typeAlcohol.TypeBeer;
 
 class BeerTest {
     @org.junit.jupiter.api.Test

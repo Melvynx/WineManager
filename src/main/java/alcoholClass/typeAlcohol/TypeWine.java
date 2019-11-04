@@ -1,4 +1,4 @@
-
+package alcoholClass.typeAlcohol;
 
 public enum TypeWine {
     BLANC ("Blanc"),

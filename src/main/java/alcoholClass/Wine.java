@@ -1,3 +1,8 @@
+package alcoholClass;
+
+import alcoholClass.Alcohol;
+import alcoholClass.typeAlcohol.TypeWine;
+
 public class Wine extends Alcohol {
     protected TypeWine type;
     protected int startMaturity;

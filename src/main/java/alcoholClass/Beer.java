@@ -1,3 +1,7 @@
+package alcoholClass;
+
+import alcoholClass.typeAlcohol.TypeBeer;
+
 public class Beer extends Alcohol {
     protected TypeBeer type;
     //Instancier

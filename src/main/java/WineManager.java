@@ -1,3 +1,10 @@
+import alcoholClass.Alcohol;
+import alcoholClass.Beer;
+import alcoholClass.StrongAlcohol;
+import alcoholClass.typeAlcohol.TypeBeer;
+import alcoholClass.Wine;
+import alcoholClass.typeAlcohol.TypeWine;
+
 import java.sql.SQLException;
 import java.util.*;
 

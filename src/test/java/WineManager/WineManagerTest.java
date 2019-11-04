@@ -1,3 +1,8 @@
+import alcoholClass.Beer;
+import alcoholClass.StrongAlcohol;
+import alcoholClass.typeAlcohol.TypeBeer;
+import alcoholClass.Wine;
+import alcoholClass.typeAlcohol.TypeWine;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayInputStream;

@@ -1,3 +1,7 @@
+package alcoholClass;
+
+import alcoholClass.Alcohol;
+
 public class StrongAlcohol extends Alcohol {
     //Instancier
 

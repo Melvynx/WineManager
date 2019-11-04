@@ -1,3 +1,4 @@
+package alcoholClass.typeAlcohol;
 
 public enum TypeBeer{
     BLANCHE ("Blanche"),
