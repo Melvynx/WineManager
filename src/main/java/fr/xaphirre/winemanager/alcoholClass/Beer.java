@@ -1,6 +1,6 @@
-package alcoholClass;
+package fr.xaphirre.winemanager.alcoholClass;
 
-import alcoholClass.typeAlcohol.TypeBeer;
+import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeBeer;
 
 public class Beer extends Alcohol {
     protected TypeBeer type;

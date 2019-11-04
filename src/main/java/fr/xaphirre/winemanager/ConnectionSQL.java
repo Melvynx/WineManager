@@ -1,9 +1,11 @@
-import alcoholClass.Alcohol;
-import alcoholClass.Beer;
-import alcoholClass.StrongAlcohol;
-import alcoholClass.typeAlcohol.TypeBeer;
-import alcoholClass.Wine;
-import alcoholClass.typeAlcohol.TypeWine;
+package fr.xaphirre.winemanager;
+
+import fr.xaphirre.winemanager.alcoholClass.Alcohol;
+import fr.xaphirre.winemanager.alcoholClass.Beer;
+import fr.xaphirre.winemanager.alcoholClass.StrongAlcohol;
+import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeBeer;
+import fr.xaphirre.winemanager.alcoholClass.Wine;
+import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeWine;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -63,7 +65,8 @@ public class ConnectionSQL{
                 "    "+ strongAlcoholColumnRegion +" VARCHAR(40)," +
                 "    "+ strongAlcoholColumnAge +" INTEGER NOT NULL," +
                 "    "+ strongAlcoholColumnDegreeOfAlcohol +" INTEGER NOT NULL," +
-                "    "+ strongAlcoholColumnCapacityML +" INTEGER NOT NULL" +
+                "    "+ strongAlcoholColumnCapacityML +" INTEGER NOT NULL," +
+                "    date_created datetime default current_timestamp" +
                 ");";
         String sqlBeer = "CREATE TABLE IF NOT EXISTS Beer (" +
                 "    id INTEGER PRIMARY KEY," +
@@ -72,7 +75,8 @@ public class ConnectionSQL{
                 "    "+ beerColumnAge +" INTEGER NOT NULL," +
                 "    "+ beerColumnDegreeOfAlcohol +" INTEGER NOT NULL," +
                 "    "+ beerColumnCapacityML +" INTEGER NOT NULL," +
-                "    "+ beerColumnType +" VARCHAR(10)" +
+                "    "+ beerColumnType +" VARCHAR(10)," +
+                "    date_created datetime default current_timestamp" +
                 ");";
         String sqlWine = "CREATE TABLE IF NOT EXISTS Wine (" +
                 "    id INTEGER PRIMARY KEY," +
@@ -83,7 +87,8 @@ public class ConnectionSQL{
                 "    "+ wineColumnCapacityML +" INTEGER NOT NULL," +
                 "    "+ wineColumnType +" VARCHAR(10), " +
                 "    "+ wineColumnStartMaturity +" INTEGER NOT NULL," +
-                "    "+ wineColumnEndMaturity +" INTEGER NOT NULL" +
+                "    "+ wineColumnEndMaturity +" INTEGER NOT NULL," +
+                "    date_created datetime default current_timestamp" +
                 ");";
         if (connection == null) {
             return;
@@ -171,7 +176,7 @@ public class ConnectionSQL{
     public List<Wine> getWines() throws SQLException {
         List<Wine> wines = new LinkedList<>();
         TypeWine typeNewWine;
-        ResultSet resultSet = this.query("SELECT * FROM alcoholClass.Wine");
+        ResultSet resultSet = this.query("SELECT * FROM Wine");
         while (resultSet.next()) {
             typeNewWine = TypeWine.getFromName(resultSet.getString("type_wine"));
             Wine wine = new Wine(resultSet.getString(wineColumnName), resultSet.getString(wineColumnRegion), resultSet.getInt(wineColumnAge), resultSet.getInt(wineColumnDegreeOfAlcohol), resultSet.getInt(wineColumnCapacityML), typeNewWine, resultSet.getInt(wineColumnStartMaturity), resultSet.getInt(wineColumnEndMaturity));
@@ -182,7 +187,7 @@ public class ConnectionSQL{
     public List<Beer> getBeer() throws SQLException {
         List<Beer> beers = new LinkedList<>();
         TypeBeer typeNewBeer;
-        ResultSet resultSet = this.query("SELECT * FROM alcoholClass.Beer");
+        ResultSet resultSet = this.query("SELECT * FROM Beer");
         while (resultSet.next()) {
             typeNewBeer = TypeBeer.getFromName(resultSet.getString("type_beer"));
 
@@ -193,7 +198,7 @@ public class ConnectionSQL{
     }
     public List<StrongAlcohol> getStrongAlcohol() throws SQLException {
         List<StrongAlcohol> strongAlcohol = new LinkedList<>();
-        ResultSet resultSet = this.query("SELECT * FROM alcoholClass.StrongAlcohol");
+        ResultSet resultSet = this.query("SELECT * FROM StrongAlcohol");
         while (resultSet.next()) {
             StrongAlcohol alcohol = new StrongAlcohol(resultSet.getString(strongAlcoholColumnName), resultSet.getString(strongAlcoholColumnRegion), resultSet.getInt(strongAlcoholColumnAge), resultSet.getInt(strongAlcoholColumnDegreeOfAlcohol), resultSet.getInt(strongAlcoholColumnCapacityML));
             strongAlcohol.add(alcohol);

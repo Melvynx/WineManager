@@ -1,15 +1,17 @@
-import alcoholClass.Alcohol;
-import alcoholClass.Beer;
-import alcoholClass.StrongAlcohol;
-import alcoholClass.typeAlcohol.TypeBeer;
-import alcoholClass.Wine;
-import alcoholClass.typeAlcohol.TypeWine;
+package fr.xaphirre.winemanager;
+
+import fr.xaphirre.winemanager.alcoholClass.Alcohol;
+import fr.xaphirre.winemanager.alcoholClass.Beer;
+import fr.xaphirre.winemanager.alcoholClass.StrongAlcohol;
+import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeBeer;
+import fr.xaphirre.winemanager.alcoholClass.Wine;
+import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeWine;
 
 import java.sql.SQLException;
 import java.util.*;
 
 public class WineManager {
-    public static String dbPath = "db.db";
+    public static String dbPath = "alcohol.db";
 
     private static Scanner scanner = null;
     static ConnectionSQL connection = null;

@@ -1,4 +1,4 @@
-package alcoholClass.typeAlcohol;
+package fr.xaphirre.winemanager.alcoholClass.typeAlcohol;
 
 public enum TypeBeer{
     BLANCHE ("Blanche"),

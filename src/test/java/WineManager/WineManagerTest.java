@@ -1,8 +1,9 @@
-import alcoholClass.Beer;
-import alcoholClass.StrongAlcohol;
-import alcoholClass.typeAlcohol.TypeBeer;
-import alcoholClass.Wine;
-import alcoholClass.typeAlcohol.TypeWine;
+import fr.xaphirre.winemanager.WineManager;
+import fr.xaphirre.winemanager.alcoholClass.Beer;
+import fr.xaphirre.winemanager.alcoholClass.StrongAlcohol;
+import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeBeer;
+import fr.xaphirre.winemanager.alcoholClass.Wine;
+import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeWine;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayInputStream;

@@ -1,7 +1,6 @@
-package alcoholClass;
+package fr.xaphirre.winemanager.alcoholClass;
 
-import alcoholClass.Alcohol;
-import alcoholClass.typeAlcohol.TypeWine;
+import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeWine;
 
 public class Wine extends Alcohol {
     protected TypeWine type;

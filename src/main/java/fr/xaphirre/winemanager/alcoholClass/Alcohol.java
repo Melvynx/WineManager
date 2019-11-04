@@ -1,4 +1,4 @@
-package alcoholClass;
+package fr.xaphirre.winemanager.alcoholClass;
 
 public abstract class Alcohol {
     //Variable

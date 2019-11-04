@@ -1,5 +1,5 @@
-import alcoholClass.Beer;
-import alcoholClass.typeAlcohol.TypeBeer;
+import fr.xaphirre.winemanager.alcoholClass.Beer;
+import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeBeer;
 
 class BeerTest {
     @org.junit.jupiter.api.Test

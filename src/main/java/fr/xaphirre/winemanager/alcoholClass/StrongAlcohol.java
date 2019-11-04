@@ -1,6 +1,4 @@
-package alcoholClass;
-
-import alcoholClass.Alcohol;
+package fr.xaphirre.winemanager.alcoholClass;
 
 public class StrongAlcohol extends Alcohol {
     //Instancier
