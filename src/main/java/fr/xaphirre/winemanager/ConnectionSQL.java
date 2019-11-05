@@ -67,8 +67,8 @@ public class ConnectionSQL{
                 "    "+ strongAlcoholColumnRegion +" VARCHAR(40)," +
                 "    "+ strongAlcoholColumnAge +" INTEGER NOT NULL," +
                 "    "+ strongAlcoholColumnDegreeOfAlcohol +" INTEGER NOT NULL," +
-                "    "+ strongAlcoholColumnCapacityML +" INTEGER NOT NULL" +
-                "    "+ dateTimeAlcohol +" datetime default current_timestamp," +
+                "    "+ strongAlcoholColumnCapacityML +" INTEGER NOT NULL," +
+                "    "+ dateTimeAlcohol +" datetime default current_timestamp" +
                 ");";
         String sqlBeer = "CREATE TABLE IF NOT EXISTS Beer (" +
                 "    id INTEGER PRIMARY KEY," +
@@ -78,7 +78,7 @@ public class ConnectionSQL{
                 "    "+ beerColumnDegreeOfAlcohol +" INTEGER NOT NULL," +
                 "    "+ beerColumnCapacityML +" INTEGER NOT NULL," +
                 "    "+ beerColumnType +" VARCHAR(10)," +
-                "    "+ dateTimeAlcohol +" datetime default current_timestamp," +
+                "    "+ dateTimeAlcohol +" datetime default current_timestamp" +
                 ");";
         String sqlWine = "CREATE TABLE IF NOT EXISTS Wine (" +
                 "    id INTEGER PRIMARY KEY," +
@@ -90,7 +90,7 @@ public class ConnectionSQL{
                 "    "+ wineColumnType +" VARCHAR(10), " +
                 "    "+ wineColumnStartMaturity +" INTEGER NOT NULL," +
                 "    "+ wineColumnEndMaturity +" INTEGER NOT NULL," +
-                "    "+ dateTimeAlcohol +" datetime default current_timestamp," +
+                "    "+ dateTimeAlcohol +" datetime default current_timestamp" +
                 ");";
         if (connection == null) {
             return;
