@@ -1,11 +1,14 @@
 package fr.xaphirre.winemanager.Page;
 
+import com.sun.javafx.scene.layout.region.Margins;
 import fr.xaphirre.winemanager.alcoholClass.*;
 import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeBeer;
 import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeWine;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class AlcoholPanel extends JPanel {
@@ -14,7 +17,7 @@ public class AlcoholPanel extends JPanel {
     private JPanel contentLeft = new JPanel();
     private JPanel contentRight = new JPanel();
 
-    private String instanceOf = "";
+    private String typeAlcohol = "";
     private String nameAlcohol = "";
     private String regionAlcohol = "";
     private Integer ageAlcohol = null;
@@ -24,8 +27,8 @@ public class AlcoholPanel extends JPanel {
     private TypeBeer typeBeer;
     private Integer startMaturityWine = null;
     private Integer endMaturityWine = null;
-    private Color background = ColorPage.MAGENTA.getColor();
-    private Color textColor = ColorPage.LIGHTCYAN.getColor();
+    private Color background = ColorPage.COLOR2.getColor();
+    private Color textColor = ColorPage.DARKPRIMARY.getColor();
 
     public AlcoholPanel(Alcohol alcohol){
         content.setLayout(new BorderLayout());
@@ -34,16 +37,19 @@ public class AlcoholPanel extends JPanel {
         this.initValue(alcohol);
         this.initContent();
         this.add(content);
-        Border border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(textColor), instanceOf, 1, 1, new Font("Nanum Gothic", Font.PLAIN, 18), textColor);
+        Border border = BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(0,0,5,0,ColorPage.PRIMARY.getColor()), typeAlcohol, 1, 1, new Font("Nanum Gothic", Font.PLAIN, 18), textColor);
+
         this.setBorder(border);
         this.setBackground(background);
-        this.setSize(this.getWidth(), 300);
+        this.setSize(this.getWidth(), 180);
 
     }
     private void initContent(){
         Font font = new Font("Nanum Gothic", Font.PLAIN, 18);
 
-        if(instanceOf.equals("Wine")){
+        if(typeAlcohol.equals("Wine")){
+
+
             contentRight.setLayout(new GridLayout(4,1));
             initBaseContent();
 
@@ -57,7 +63,8 @@ public class AlcoholPanel extends JPanel {
             contentRight.add(type);
             contentRight.add(maturity);
         }
-        if(instanceOf.equals("Beer")){
+        if(typeAlcohol.equals("Beer")){
+
             contentRight.setLayout(new GridLayout(3,1));
             System.out.println("Beer type "+nameAlcohol);
             initBaseContent();
@@ -68,7 +75,7 @@ public class AlcoholPanel extends JPanel {
             type.setForeground(textColor);
             contentRight.add(type);
         }
-        if(instanceOf.equals("Alcohol")){
+        if(typeAlcohol.equals("Alcohol")){
             contentRight.setLayout(new GridLayout(2,2));
 
             initBaseContent();
@@ -85,7 +92,7 @@ public class AlcoholPanel extends JPanel {
         JLabel capacity = new JLabel("Capacité (ml) : "+capacityAlcohol+"ml");
 
         nom.setFont(fontName);
-        nom.setHorizontalAlignment(JLabel.CENTER);
+        nom.setHorizontalAlignment(JLabel.LEFT);
         nom.setForeground(textColor);
 
         region.setFont(font);
@@ -110,6 +117,17 @@ public class AlcoholPanel extends JPanel {
 
         contentRight.add(degree);
         contentRight.add(capacity);
+        if(typeAlcohol.equals("Wine")){
+            contentLeft.setLayout(new GridLayout(4,1));
+            JPanel panVide = new JPanel(), panVide2 = new JPanel();panVide.setBackground(background);panVide2.setBackground(background);
+            contentLeft.add(panVide);
+            contentLeft.add(panVide2);
+        }
+        if(typeAlcohol.equals("Beer")){
+            contentLeft.setLayout(new GridLayout(3,1));
+            JPanel panVide = new JPanel();panVide.setBackground(background);
+            contentLeft.add(panVide);
+        }
 
         contentCenter.add(contentLeft);
         contentCenter.add(contentRight);
@@ -127,17 +145,17 @@ public class AlcoholPanel extends JPanel {
         capacityAlcohol = alcohol.getCapacityML();
 
         if (alcohol instanceof Wine){
-            instanceOf = "Wine";
+            typeAlcohol = "Wine";
             typeWine = ((Wine) alcohol).getType();
             startMaturityWine = ((Wine) alcohol).getStartMaturity();
             endMaturityWine = ((Wine) alcohol).getEndMaturity();
         }
         if (alcohol instanceof Beer){
-            instanceOf = "Beer";
+            typeAlcohol = "Beer";
             typeBeer = ((Beer) alcohol).getType();
         }
         if (alcohol instanceof StrongAlcohol){
-            instanceOf = "Alcohol";
+            typeAlcohol = "Alcohol";
         }
     }
 

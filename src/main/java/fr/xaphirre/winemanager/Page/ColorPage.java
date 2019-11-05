@@ -3,11 +3,11 @@ package fr.xaphirre.winemanager.Page;
 import java.awt.*;
 
 public enum ColorPage {
-    LIGHTCYAN(new Color(224,240,234)),
-    LIGHTBLUE(new Color(149,173,190)),
-    LIGHTMAGENTA(new Color(87,79,125)),
-    MAGENTA(new Color(80,58,101)),
-    DARKMAGENTA(new Color(60,42,77));
+    COLOR1(new Color(255, 255, 255)),
+    COLOR2(new Color(245, 245, 245)),
+    LIGHTPRIMARY(new Color(87,79,125)),
+    PRIMARY(new Color(118, 34, 78)),
+    DARKPRIMARY(new Color(40, 10, 60));
 
 
     private Color color;
@@ -17,5 +17,10 @@ public enum ColorPage {
 
     public Color getColor() {
         return color;
+    }
+
+    @Override
+    public String toString() {
+        return color.toString();
     }
 }
