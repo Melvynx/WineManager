@@ -1,5 +1,5 @@
-import alcoholClass.Wine;
-import alcoholClass.typeAlcohol.TypeWine;
+import fr.xaphirre.winemanager.alcoholClass.Wine;
+import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeWine;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

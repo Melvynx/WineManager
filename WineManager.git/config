@@ -5,4 +5,4 @@
 	ignorecase = true
 	precomposeunicode = true
 [remote "origin"]
-	url = https://github.com/qoqa/WineManager.git
+	url = https://github.com/qoqa/fr.xaphirre.winemanager.WineManager.git
