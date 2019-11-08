@@ -12,14 +12,13 @@ import java.util.*;
 
 public class WineManager {
     public static String dbPath = "alcohol.db";
-    static ConnectionSQL connection = null;
+    private static ConnectionSQL connection = null;
 
     private static Scanner scanner = null;
 
     public static void main(String[] args) throws SQLException {
         scanner = new Scanner(System.in);
         connection = new ConnectionSQL(dbPath);
-        connection.connect();
 
         Integer chosenOption;
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*\t" +
@@ -67,6 +66,7 @@ public class WineManager {
                         List<Beer> alcoholFiltredBeer = connection.getBeer();
                         for (Beer beer : alcoholFiltredBeer) {
                             System.out.println(beer);
+                            System.out.println(beer.getDate().getTime());
                         }
                         break;
                     case 4:

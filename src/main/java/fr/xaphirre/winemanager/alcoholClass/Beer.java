@@ -2,8 +2,10 @@ package fr.xaphirre.winemanager.alcoholClass;
 
 import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeBeer;
 
+import java.util.Date;
+
 public class Beer extends Alcohol {
-    protected TypeBeer type;
+    private TypeBeer type;
     //Instancier
 
     public Beer(String name, String region, int age, int degreeOfAlcohol, int capacityML, TypeBeer type) {
@@ -13,6 +15,17 @@ public class Beer extends Alcohol {
         this.degreeOfAlcohol = degreeOfAlcohol;
         this.capacityML = capacityML;
         this.type = type;
+        this.date = null;
+    }
+    public Beer(String name, String region, int age, int degreeOfAlcohol, int capacityML, TypeBeer type, Date date, int id) {
+        this.name = name;
+        this.region = region;
+        this.age = age;
+        this.degreeOfAlcohol = degreeOfAlcohol;
+        this.capacityML = capacityML;
+        this.type = type;
+        this.date = date;
+        this.id = id;
     }
     //Fonction
     public String toString() {

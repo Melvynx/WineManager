@@ -1,5 +1,7 @@
 package fr.xaphirre.winemanager.alcoholClass;
 
+import java.util.Date;
+
 public abstract class Alcohol {
     //Variable
     protected String name;
@@ -8,16 +10,18 @@ public abstract class Alcohol {
     protected int age;
     protected int degreeOfAlcohol;
     protected int capacityML;
+    Date date;
+
+    protected int id;
     //Fonction
     public String toString() {
-        String str = "\n"+
+        return "\n"+
                 "*---------------------------------------------*\n" +
-                "Alcool : "+this.name+
-                "\n \t Il provient de "+this.region+" et à été crée en "+this.age+". " +
-                "\n \t Il possède "+this.degreeOfAlcohol+"% d'Alcool."+
-                "\n \t La bouteille contient "+this.capacityML+"ml.\n"+
+                "Alcool : "+ this.name+
+                "\n \t Il provient de "+ this.region+" et à été crée en "+ this.age+". " +
+                "\n \t Il possède "+ this.degreeOfAlcohol+"% d'Alcool."+
+                "\n \t La bouteille contient "+ this.capacityML+"ml.\n"+
                 "*---------------------------------------------*";
-        return str;
     }
     //Getter
     public String getName() {
@@ -35,6 +39,9 @@ public abstract class Alcohol {
     public int getCapacityML() {
         return capacityML;
     }
+    public int getId() {
+        return id;
+    }
     //Setter
     public void setAge(int age) {
         this.age = age;
@@ -50,5 +57,8 @@ public abstract class Alcohol {
     }
     public void setRegion(String region) {
         this.region = region;
+    }
+    public Date getDate() {
+        return date;
     }
 }

@@ -7,11 +7,18 @@ import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeBeer;
 import fr.xaphirre.winemanager.alcoholClass.Wine;
 import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeWine;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class ConnectionSQL{
+public class ConnectionSQL {
     //Variable of DB :
     private final String strongAlcoholColumnName = "name";
     private final String strongAlcoholColumnRegion = "region";
@@ -42,10 +49,12 @@ public class ConnectionSQL{
     private Connection connection = null;
     private Statement statement = null;
 
+    private final ConcurrentLinkedQueue<Observer> observers = new ConcurrentLinkedQueue<>();
+
     public ConnectionSQL(String dbPath) {
         DBPath = dbPath;
     }
-    public void connect() {
+    public Connection connect() {
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + DBPath);
@@ -59,6 +68,7 @@ public class ConnectionSQL{
             System.out.println("Erreur de connexion SQL.");
         }
         this.createTable();
+        return connection;
     }
     private void createTable() {
         String sqlAlcohol = "CREATE TABLE IF NOT EXISTS StrongAlcohol (" +
@@ -119,7 +129,7 @@ public class ConnectionSQL{
             System.out.println("Erreur de déconnexion.");
         }
     }
-    public ResultSet query(String request) {
+    private ResultSet query(String request) {
         ResultSet result = null;
         try {
             result = statement.executeQuery(request);
@@ -145,6 +155,7 @@ public class ConnectionSQL{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        notifyObservers();
     }
     public void addBeer(Beer beer) {
         try {
@@ -160,6 +171,7 @@ public class ConnectionSQL{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        notifyObservers();
     }
     public void addStrongAlcohol(StrongAlcohol alcohol) {
         try {
@@ -174,14 +186,22 @@ public class ConnectionSQL{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        notifyObservers();
     }
     public List<Wine> getWines() throws SQLException {
         List<Wine> wines = new LinkedList<>();
         TypeWine typeNewWine;
         ResultSet resultSet = this.query("SELECT * FROM Wine");
         while (resultSet.next()) {
+            String dateString = resultSet.getString(dateTimeAlcohol);
+            Date date = null;
+            try{
+                date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             typeNewWine = TypeWine.getFromName(resultSet.getString("type_wine"));
-            Wine wine = new Wine(resultSet.getString(wineColumnName), resultSet.getString(wineColumnRegion), resultSet.getInt(wineColumnAge), resultSet.getInt(wineColumnDegreeOfAlcohol), resultSet.getInt(wineColumnCapacityML), typeNewWine, resultSet.getInt(wineColumnStartMaturity), resultSet.getInt(wineColumnEndMaturity));
+            Wine wine = new Wine(resultSet.getString(wineColumnName), resultSet.getString(wineColumnRegion), resultSet.getInt(wineColumnAge), resultSet.getInt(wineColumnDegreeOfAlcohol), resultSet.getInt(wineColumnCapacityML), typeNewWine, resultSet.getInt(wineColumnStartMaturity), resultSet.getInt(wineColumnEndMaturity), date, resultSet.getInt("id"));
             wines.add(wine);
         }
         return wines;
@@ -192,8 +212,15 @@ public class ConnectionSQL{
         ResultSet resultSet = this.query("SELECT * FROM Beer");
         while (resultSet.next()) {
             typeNewBeer = TypeBeer.getFromName(resultSet.getString("type_beer"));
+            String dateString = resultSet.getString(dateTimeAlcohol);
+            Date date = null;
+            try{
+                date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-            Beer beer = new Beer(resultSet.getString(beerColumnName), resultSet.getString(beerColumnRegion), resultSet.getInt(beerColumnAge), resultSet.getInt(beerColumnDegreeOfAlcohol), resultSet.getInt(beerColumnCapacityML), typeNewBeer);
+            Beer beer = new Beer(resultSet.getString(beerColumnName), resultSet.getString(beerColumnRegion), resultSet.getInt(beerColumnAge), resultSet.getInt(beerColumnDegreeOfAlcohol), resultSet.getInt(beerColumnCapacityML), typeNewBeer,date, resultSet.getInt("id"));
             beers.add(beer);
         }
         return beers;
@@ -202,12 +229,19 @@ public class ConnectionSQL{
         List<StrongAlcohol> strongAlcohol = new LinkedList<>();
         ResultSet resultSet = this.query("SELECT * FROM StrongAlcohol");
         while (resultSet.next()) {
-            StrongAlcohol alcohol = new StrongAlcohol(resultSet.getString(strongAlcoholColumnName), resultSet.getString(strongAlcoholColumnRegion), resultSet.getInt(strongAlcoholColumnAge), resultSet.getInt(strongAlcoholColumnDegreeOfAlcohol), resultSet.getInt(strongAlcoholColumnCapacityML));
+            String dateString = resultSet.getString(dateTimeAlcohol);
+            Date date = null;
+            try{
+                date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            StrongAlcohol alcohol = new StrongAlcohol(resultSet.getString(strongAlcoholColumnName), resultSet.getString(strongAlcoholColumnRegion), resultSet.getInt(strongAlcoholColumnAge), resultSet.getInt(strongAlcoholColumnDegreeOfAlcohol), resultSet.getInt(strongAlcoholColumnCapacityML), date, resultSet.getInt("id"));
             strongAlcohol.add(alcohol);
         }
         return strongAlcohol;
     }
-    public List<Alcohol> getAllAlcohol() throws  SQLException {
+    public List<Alcohol> getAllAlcohol() throws SQLException {
         List<Alcohol> allAlcohol = new LinkedList();
         allAlcohol.addAll(this.getWines());
         allAlcohol.addAll(this.getBeer());
@@ -215,5 +249,47 @@ public class ConnectionSQL{
 
         return allAlcohol;
     }
+    public void deleteWine(int id) {
+        String sql = "DELETE FROM Wine WHERE id = ?";
+        notifyObservers();
+    }
 
+    public void deleteBeer(int id) {
+        String sql = "DELETE FROM Beer WHERE id = ?";
+        deleteAlcohol(sql, id);
+    }
+
+    public void deleteStrongAlcohol(int id) {
+        String sql = "DELETE FROM StrongAlcohol WHERE id = ?";
+        deleteAlcohol(sql, id);
+    }
+
+    private void deleteAlcohol(String sql, int id){
+        try  {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            // set the corresponding param
+            pstmt.setInt(1, id);
+            // execute the delete statement
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        notifyObservers();
+    }
+    public void addSubscriber(Observer observer) {
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
+    }
+
+    private void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.onDataChanged();
+        }
+    }
+
+    public interface Observer {
+        void onDataChanged();
+    }
 }

@@ -2,14 +2,13 @@ package fr.xaphirre.winemanager.alcoholClass;
 
 import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeWine;
 
-public class Wine extends Alcohol {
-    protected TypeWine type;
-    protected int startMaturity;
-    protected int endMaturity;
-    //Instancier
+import java.util.Date;
 
-    public Wine() {
-    }
+public class Wine extends Alcohol {
+    private TypeWine type;
+    private int startMaturity;
+    private int endMaturity;
+    //Instancier
 
     public Wine(String name, String region, int age, int degreeOfAlcohol, int capacityML, TypeWine type, int startMaturity, int endMaturity) {
         super();
@@ -21,18 +20,30 @@ public class Wine extends Alcohol {
         this.type = type;
         this.startMaturity = startMaturity;
         this.endMaturity = endMaturity;
+        this.date = null;
     }
-
+    public Wine(String name, String region, int age, int degreeOfAlcohol, int capacityML, TypeWine type, int startMaturity, int endMaturity, Date date, int id) {
+        super();
+        this.name = name;
+        this.region = region;
+        this.age = age;
+        this.degreeOfAlcohol = degreeOfAlcohol;
+        this.capacityML = capacityML;
+        this.type = type;
+        this.startMaturity = startMaturity;
+        this.endMaturity = endMaturity;
+        this.date = date;
+        this.id = id;
+    }
     //Fonction
     public String toString() {
-        String str = "\n" +
+        return "\n" +
                 "*---------------------------------------------*\n" +
                 "Vin : " + this.name +
                 "\n \t Il provient de " + this.region + " et à été crée en " + this.age + ". " +
                 "\n \t C'est un vin " + this.type.getName() + ". Il est à consommer de préfèrence entre " + this.startMaturity + " et " + this.endMaturity +
                 "\n \t Il possède " + this.degreeOfAlcohol + "% d'Alcool et contient " + this.capacityML + "ml.\n" +
                 "*---------------------------------------------*";
-        return str;
     }
     //Getter
 
@@ -41,8 +52,7 @@ public class Wine extends Alcohol {
     }
 
     public String getMaturity() {
-        String str = startMaturity + " - " + endMaturity;
-        return str;
+        return startMaturity + " - " + endMaturity;
     }
 
     public int getStartMaturity() {
@@ -56,13 +66,5 @@ public class Wine extends Alcohol {
 
     public void setType(TypeWine type) {
         this.type = type;
-    }
-
-    public void setEndMaturity(int endMaturity) {
-        this.endMaturity = endMaturity;
-    }
-
-    public void setStartMaturity(int startMaturity) {
-        this.startMaturity = startMaturity;
     }
 }

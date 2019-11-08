@@ -1,15 +1,17 @@
 package fr.xaphirre.winemanager;
 
 import fr.xaphirre.winemanager.Page.HomePage;
-import fr.xaphirre.winemanager.Page.ShowAlcoholPage;
+import fr.xaphirre.winemanager.Page.ListAlcoholPage;
 
 import javax.swing.*;
 
 public class Window extends JFrame implements Navigation{
 
+    public static final ConnectionSQL connection = new ConnectionSQL("alcohol.db");
 
     Window(){
         //Default settings
+        connection.connect();
         this.setSize(900,700);
         this.setTitle("WineManager");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -17,12 +19,13 @@ public class Window extends JFrame implements Navigation{
         this.setVisible(true);
         setPage(0);
     }
+
     //Function to change the currently display page
     public void setPage(int pages) {
         this.getContentPane().removeAll();
 
         HomePage homePage;
-        ShowAlcoholPage showAlcoholPage;
+        ListAlcoholPage listAlcoholPage;
 
         switch (pages) {
             case 0:
@@ -30,8 +33,8 @@ public class Window extends JFrame implements Navigation{
                 this.setContentPane(homePage);
                 break;
             case 1:
-                showAlcoholPage = new ShowAlcoholPage(this);
-                this.setContentPane(showAlcoholPage);
+                listAlcoholPage = new ListAlcoholPage(this);
+                this.setContentPane(listAlcoholPage);
                 break;
             default:
                 System.out.println("Erreur: ["+pages+"] n'est pas définit.(Définit entre 0 et 1)");

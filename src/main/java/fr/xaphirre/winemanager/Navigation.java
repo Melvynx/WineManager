@@ -1,5 +1,5 @@
 package fr.xaphirre.winemanager;
 
 public interface Navigation {
-    public void setPage(int page);
+    void setPage(int page);
 }

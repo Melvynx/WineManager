@@ -14,15 +14,13 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 
-public class DialogNewAlcohol extends JDialog {
+public class DialogAddAlcohol extends JDialog {
   //To push
   private Wine wine;
   private Beer beer;
   private StrongAlcohol strongAlcohol;
   //Panel
   private JPanel content = new JPanel();
-  private JPanel control;
-  private JPanel westColor;
   private JPanel formCenter = new JPanel(new GridLayout(9,1));
 
   private JLabel title = new JLabel();
@@ -37,11 +35,15 @@ public class DialogNewAlcohol extends JDialog {
   private JPanel panType, panMaturityWine;
   private Font fontForm = new Font("Nanum Gothic", Font.PLAIN, 20);
   private Color colorForm = ColorPage.DARKPRIMARY.getColor();
-  private JLabel nomLabel, ageLabel, regionLabel,typeLabel, capacityLabel, degreeLabel;
+  private JLabel nomLabel;
+  private JLabel ageLabel;
+  private JLabel regionLabel;
+  private JLabel typeLabel;
+  private JLabel capacityLabel;
   private JComboBox<String> comboTypeWine, comboTypeBeer;
 
 
-  public DialogNewAlcohol(JFrame parent, String title, boolean modal) {
+  DialogAddAlcohol(JFrame parent, String title, boolean modal) {
     super(parent,title,modal);
     //Settings
     this.setSize(500,620);
@@ -53,21 +55,20 @@ public class DialogNewAlcohol extends JDialog {
     this.initWestPan();
     this.initControlButton();
 
-    this.setBackground(background);
-    content.setBackground(background);
+    content.setBackground(ColorPage.PRIMARY.getColor());
 
     this.setContentPane(content);
 
     this.setVisible(true);
   }
-  public void initWestPan(){
-    westColor = new JPanel();
+  private void initWestPan(){
+    JPanel westColor = new JPanel();
     westColor.setPreferredSize(new Dimension(110,550));
     westColor.setBackground(ColorPage.PRIMARY.getColor());
     content.add(westColor, BorderLayout.EAST);
   }
 
-  public void initComponent(){
+  private void initComponent(){
     DecimalFormat format = new DecimalFormat();
     format.setGroupingUsed(false);
 
@@ -138,7 +139,8 @@ public class DialogNewAlcohol extends JDialog {
     JPanel panDegree = new JPanel(new FlowLayout(FlowLayout.LEFT));
     degree = new JFormattedTextField(format);
     degree.setPreferredSize(new Dimension(50,30));
-    degreeLabel = new JLabel("Degree d'alcool : "); degreeLabel.setFont(fontForm); degreeLabel.setForeground(colorForm);
+    JLabel degreeLabel = new JLabel("Degree d'alcool : ");
+    degreeLabel.setFont(fontForm); degreeLabel.setForeground(colorForm);
     JLabel degreeLabelPercent = new JLabel(" %");degreeLabelPercent.setFont(fontForm); degreeLabelPercent.setForeground(colorForm);
     panDegree.add(degreeLabel);
     panDegree.add(degree);
@@ -170,7 +172,7 @@ public class DialogNewAlcohol extends JDialog {
     content.add(formCenter, BorderLayout.CENTER);
 
   }
-  public void initSpecialForm(){
+  private void initSpecialForm(){
     //Wine special
     panType = new JPanel(new FlowLayout(FlowLayout.LEFT));
     String[] listTypeWine = {"Blanc", "Rouge", "Rosé"};
@@ -215,7 +217,7 @@ public class DialogNewAlcohol extends JDialog {
       return false;
     }
 
-    Integer ageInteger = 0;
+    int ageInteger = 0;
     if (age.isEditValid()){
       try {
         ageInteger = Integer.parseInt(age.getText());
@@ -230,7 +232,7 @@ public class DialogNewAlcohol extends JDialog {
       JOptionPane.showMessageDialog(null,"Erreur, l'anée de création du vin ne peut pas être plus grand que "+yearToday+" ni plus petit que 1000.", "Error Age", JOptionPane.ERROR_MESSAGE);
       return false;
     }
-    Integer degreeInteger = 0;
+    int degreeInteger = 0;
     if (degree.isEditValid()) {
       try {
         degreeInteger = Integer.parseInt(degree.getText());
@@ -260,8 +262,8 @@ public class DialogNewAlcohol extends JDialog {
       return false;
     }
     if (startMaturity.isEditValid() && endMaturity.isEditValid()){
-      Integer startMaturityInteger = null;
-      Integer endMaturityInteger = null;
+      Integer startMaturityInteger;
+      Integer endMaturityInteger;
       try{
         startMaturityInteger = Integer.parseInt(startMaturity.getText());
         endMaturityInteger = Integer.parseInt(endMaturity.getText());
@@ -281,8 +283,8 @@ public class DialogNewAlcohol extends JDialog {
     }
     return true;
   }
-  public void initControlButton() {
-    control = new JPanel();
+  private void initControlButton() {
+    JPanel control = new JPanel();
     control.setBackground(ColorPage.PRIMARY.getColor());
     control.setPreferredSize(new Dimension(500,100));
     JButton okBouton = new JButton("Envoyé");
@@ -368,7 +370,7 @@ public class DialogNewAlcohol extends JDialog {
   public String getTypeAlcohol(){
     return typeAlcohol;
   }
-  public Alcohol getAlcohol(int i){
+  Alcohol getAlcohol(int i){
     switch (i){
       case 0:
         return wine;
@@ -381,6 +383,7 @@ public class DialogNewAlcohol extends JDialog {
   private TypeWine getTypeWine() {
     String selectWine = (String)comboTypeWine.getSelectedItem();
     TypeWine typeWine = TypeWine.BLANC;
+    assert selectWine != null;
     switch (selectWine){
       case "Blanc":
         typeWine = TypeWine.BLANC;
@@ -397,6 +400,7 @@ public class DialogNewAlcohol extends JDialog {
   private TypeBeer getTypeBeer() {
     String selectBeer = (String)comboTypeBeer.getSelectedItem();
     TypeBeer typeBeer = TypeBeer.BLANCHE;
+    assert selectBeer != null;
     switch (selectBeer){
       case "Blanche":
         typeBeer = TypeBeer.BLANCHE;

@@ -1,15 +1,17 @@
 package fr.xaphirre.winemanager.Page;
 
-import com.sun.javafx.scene.layout.region.Margins;
+import fr.xaphirre.winemanager.DeleteSQL;
+import fr.xaphirre.winemanager.Window;
 import fr.xaphirre.winemanager.alcoholClass.*;
 import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeBeer;
 import fr.xaphirre.winemanager.alcoholClass.typeAlcohol.TypeWine;
+import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AlcoholPanel extends JPanel {
 
@@ -27,14 +29,18 @@ public class AlcoholPanel extends JPanel {
     private TypeBeer typeBeer;
     private Integer startMaturityWine = null;
     private Integer endMaturityWine = null;
-    private Color background = ColorPage.COLOR2.getColor();
+    private Color background = ColorPage.COLOR1.getColor();
     private Color textColor = ColorPage.DARKPRIMARY.getColor();
 
-    public AlcoholPanel(Alcohol alcohol){
+    private Alcohol alcohol;
+
+    AlcoholPanel(Alcohol alcohol){
+        this.alcohol = alcohol;
+
         content.setLayout(new BorderLayout());
         content.setPreferredSize(new Dimension(750,125));
         content.setBackground(background);
-        this.initValue(alcohol);
+        this.initValue();
         this.initContent();
         this.add(content);
         Border border = BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(0,0,5,0,ColorPage.PRIMARY.getColor()), typeAlcohol, 1, 1, new Font("Nanum Gothic", Font.PLAIN, 18), textColor);
@@ -55,7 +61,6 @@ public class AlcoholPanel extends JPanel {
 
             JLabel type = new JLabel("C'est du vin " +typeWine.getName());
             JLabel maturity = new JLabel("A consommer entre "+startMaturityWine+" et "+endMaturityWine+".");
-            JLabel maturityValue = new JLabel("");
             maturity.setFont(font);
             maturity.setForeground(textColor);
             type.setFont(font);
@@ -66,7 +71,6 @@ public class AlcoholPanel extends JPanel {
         if(typeAlcohol.equals("Beer")){
 
             contentRight.setLayout(new GridLayout(3,1));
-            System.out.println("Beer type "+nameAlcohol);
             initBaseContent();
 
 
@@ -83,17 +87,14 @@ public class AlcoholPanel extends JPanel {
     }
     private void initBaseContent() {
         Font font = new Font("Nanum Gothic", Font.PLAIN, 18);
-        Font fontName = new Font("Nanum Gothic", Font.ITALIC, 22);
 
-        JLabel nom = new JLabel(nameAlcohol);
+        initButtonAndLabel();
+
         JLabel region = new JLabel("Région : "+regionAlcohol);
         JLabel age = new JLabel("Date de création : "+ageAlcohol);
         JLabel degree = new JLabel("Degrée d'alcool : "+degreeOfAlcohol+"%");
         JLabel capacity = new JLabel("Capacité (ml) : "+capacityAlcohol+"ml");
 
-        nom.setFont(fontName);
-        nom.setHorizontalAlignment(JLabel.LEFT);
-        nom.setForeground(textColor);
 
         region.setFont(font);
         region.setForeground(textColor);
@@ -108,7 +109,6 @@ public class AlcoholPanel extends JPanel {
         capacity.setFont(font);
         capacity.setForeground(textColor);
 
-        content.add(nom, BorderLayout.NORTH);
         JPanel contentCenter = new JPanel();
         contentCenter.setLayout(new GridLayout(1,2));
         contentLeft.setLayout(new GridLayout(2,1));
@@ -136,7 +136,7 @@ public class AlcoholPanel extends JPanel {
         content.add(contentCenter, BorderLayout.CENTER);
 
     }
-    private void initValue(Alcohol alcohol) {
+    private void initValue() {
         //Default value;
         nameAlcohol = alcohol.getName();
         regionAlcohol = alcohol.getRegion();
@@ -158,5 +158,53 @@ public class AlcoholPanel extends JPanel {
             typeAlcohol = "Alcohol";
         }
     }
+    private void initButtonAndLabel() {
+        JLabel nom = new JLabel(nameAlcohol);
+        Font fontName = new Font("Nanum Gothic", Font.ITALIC, 22);
+        JPanel contentNorth = new JPanel(new GridLayout(1,2));
 
+        nom.setFont(fontName);
+        nom.setHorizontalAlignment(JLabel.LEFT);
+        nom.setForeground(textColor);
+        contentNorth.add(nom);
+
+        ImageIcon iconDelete = new ImageIcon("images/delete.png");
+        Image scaleDelete = iconDelete.getImage().getScaledInstance(25, 25,Image.SCALE_DEFAULT);
+        JButton deleteButton = new JButton((new ImageIcon(scaleDelete)));
+        deleteButton.setPreferredSize(new Dimension(30, 30));
+        deleteButton.addActionListener(new DeleteButtonListener());
+        JPanel contentButton = new JPanel(new GridLayout(1,6));
+        for (int i = 1; i < 6; i++){
+            JPanel panEmpty = new JPanel();
+            panEmpty.setBackground(background);
+            contentButton.add(panEmpty);
+        }
+        contentButton.add(deleteButton);
+        contentButton.setBackground(background);
+        contentNorth.add(contentButton);
+        contentNorth.setPreferredSize(new Dimension(750, 35));
+        contentNorth.setBackground(background);
+
+        content.add(contentNorth, BorderLayout.NORTH);
+    }
+    private class DeleteButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int choiceDelete = JOptionPane.showConfirmDialog(null, "<html>Vous-êtes sur le point de supprimer un Alcool.<br/>Etes-vous sûr ?<br/>Nom : "+alcohol.getName()+"<br/>Région : "+alcohol.getRegion()+"</html>", "Suppresion Alcool", JOptionPane.CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (choiceDelete == 0){
+                if(typeAlcohol.equals("Wine")){
+                    Window.connection.deleteWine(alcohol.getId());
+                }
+                if(typeAlcohol.equals("Beer")){
+                    Window.connection.deleteBeer(alcohol.getId());
+                }
+                if(typeAlcohol.equals("Alcohol")){
+                    Window.connection.deleteStrongAlcohol(alcohol.getId());
+                }
+                JOptionPane.showMessageDialog(null, "L'alcool : "+alcohol.getName()+" à été supprimer avec succès.", "Delete Succesful", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                System.out.println("lol");
+            }
+        }
+    }
 }
