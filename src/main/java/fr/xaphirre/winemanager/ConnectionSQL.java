@@ -13,27 +13,29 @@ import java.util.List;
 
 public class ConnectionSQL{
     //Variable of DB :
-    public final String strongAlcoholColumnName = "name";
-    public final String strongAlcoholColumnRegion = "region";
-    public final String strongAlcoholColumnAge = "age";
-    public final String strongAlcoholColumnDegreeOfAlcohol = "degree_of_alcohol";
-    public final String strongAlcoholColumnCapacityML = "capacity_ml";
-    
-    public final String beerColumnName = "name";
-    public final String beerColumnRegion = "region";
-    public final String beerColumnAge = "age";
-    public final String beerColumnDegreeOfAlcohol = "degree_of_alcohol";
-    public final String beerColumnCapacityML = "capacity_ml";
-    public final String beerColumnType = "type_beer";
+    private final String strongAlcoholColumnName = "name";
+    private final String strongAlcoholColumnRegion = "region";
+    private final String strongAlcoholColumnAge = "age";
+    private final String strongAlcoholColumnDegreeOfAlcohol = "degree_of_alcohol";
+    private final String strongAlcoholColumnCapacityML = "capacity_ml";
 
-    public final String wineColumnName = "name";
-    public final String wineColumnRegion = "region";
-    public final String wineColumnAge = "age";
-    public final String wineColumnDegreeOfAlcohol = "degree_of_alcohol";
-    public final String wineColumnCapacityML = "capacity_ml";
-    public final String wineColumnType = "type_wine";
-    public final String wineColumnStartMaturity = "start_maturity";
-    public final String wineColumnEndMaturity = "end_maturity";
+    private final String beerColumnName = "name";
+    private final String beerColumnRegion = "region";
+    private final String beerColumnAge = "age";
+    private final String beerColumnDegreeOfAlcohol = "degree_of_alcohol";
+    private final String beerColumnCapacityML = "capacity_ml";
+    private final String beerColumnType = "type_beer";
+
+    private final String wineColumnName = "name";
+    private final String wineColumnRegion = "region";
+    private final String wineColumnAge = "age";
+    private final String wineColumnDegreeOfAlcohol = "degree_of_alcohol";
+    private final String wineColumnCapacityML = "capacity_ml";
+    private final String wineColumnType = "type_wine";
+    private final String wineColumnStartMaturity = "start_maturity";
+    private final String wineColumnEndMaturity = "end_maturity";
+
+    private final String dateTimeAlcohol = "date_created";
 
     public final String dateTimeAlcohol = "date_created";
 
@@ -90,7 +92,7 @@ public class ConnectionSQL{
                 "    "+ wineColumnType +" VARCHAR(10), " +
                 "    "+ wineColumnStartMaturity +" INTEGER NOT NULL," +
                 "    "+ wineColumnEndMaturity +" INTEGER NOT NULL," +
-                "    "+ dateTimeAlcohol +" datetime default current_timestamp" +
+                "    "+ dateTimeAlcohol +" datetime DEFAULT CURRENT_TIMESTAMP" +
                 ");";
         if (connection == null) {
             return;

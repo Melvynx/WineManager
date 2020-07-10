@@ -10,14 +10,14 @@ public class Window extends JFrame implements Navigation{
 
     Window(){
         //Default settings
-        this.setSize(1000,800);
+        this.setSize(900,700);
         this.setTitle("WineManager");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         setPage(0);
     }
-
+    //Function to change the currently display page
     public void setPage(int pages) {
         this.getContentPane().removeAll();
 

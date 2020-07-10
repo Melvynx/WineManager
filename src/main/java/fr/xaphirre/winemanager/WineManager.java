@@ -12,9 +12,9 @@ import java.util.*;
 
 public class WineManager {
     public static String dbPath = "alcohol.db";
+    static ConnectionSQL connection = null;
 
     private static Scanner scanner = null;
-    static ConnectionSQL connection = null;
 
     public static void main(String[] args) throws SQLException {
         scanner = new Scanner(System.in);
