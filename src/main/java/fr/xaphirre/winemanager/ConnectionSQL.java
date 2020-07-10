@@ -37,6 +37,8 @@ public class ConnectionSQL{
 
     private final String dateTimeAlcohol = "date_created";
 
+    public final String dateTimeAlcohol = "date_created";
+
 
     private String DBPath;
     private Connection connection = null;
