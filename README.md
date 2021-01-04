@@ -10,3 +10,5 @@ Creation of my first application with BDD and Crud.
 ## Installation
 
 Clone the repository, open `IntelliJ` and run the project. 
+
+Made with my ❤️.
